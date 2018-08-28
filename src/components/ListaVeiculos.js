@@ -1,13 +1,13 @@
+import axios from "axios";
 import React from "react";
-import { View, ScrollView, Text, TouchableOpacity, Alert } from "react-native";
 
+import { View, ScrollView, Text, TouchableOpacity, Alert, Picker } from "react-native";
 import { Header } from "react-native-elements";
+
 import { ListItem } from "react-native-elements";
 
 import Modal from "react-native-modal";
-
 import Icon from "react-native-vector-icons/dist/FontAwesome";
-import axios from 'axios'
 
 export default class ListaVeiculos extends React.Component {
   static navigationOptions = {
@@ -18,7 +18,9 @@ export default class ListaVeiculos extends React.Component {
     this.state = {
       isModalVisible: false,
       user: "",
+      lista: [],
     };
+    this.BUSCA_VEICULOS = this.BUSCA_VEICULOS.bind(this);
   }
 
   // METODO PARA VISUALIZAR NO MODAL O USUARIO SELECIONADO
@@ -33,17 +35,29 @@ export default class ListaVeiculos extends React.Component {
     });
   };
 
-  componentDidMount() {
-    // ADICIONAR TOKEN DO USUARIO LOGADO 
-    const URL_BUSCA_VEICULO = 
-        'http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BUSCA_VEICULOS&token=ae5c1faa3f153fe74994e1fe1efdd250'
-
+  BUSCA_VEICULOS() {
+    // ADICIONAR TOKEN DO USUARIO LOGADO NA URL
+    const token = this.props.token;
+    const URL_BUSCA_VEICULO =
+      "http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BUSCA_VEICULOS&token=" + token
+    
+    console.log("URL + TOKEN: " + URL_BUSCA_VEICULO)
+    
     axios.get(URL_BUSCA_VEICULO)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err))
+      .then(res => { 
+        const veiculos = res.data;
+        this.setState({ lista: veiculos });
+        console.log(this.state.lista)
+      })
+      .catch(err => console.log(err));
+  }
+
+  componentDidMount() {
+    return this.BUSCA_VEICULOS()
   }
 
   render() {
+    
     const lista = [
       {
         name: "Maria",
@@ -77,9 +91,9 @@ export default class ListaVeiculos extends React.Component {
       },
     ];
 
-    // RECEBENDO TOKEN COMO PROPRIEDADE 
-    const token = this.props.navigation.state.params;
-    console.log("TOKEN LISTA VEICULOS: " + token)
+    // RECEBENDO TOKEN COMO PROPRIEDADE
+    // const token = this.props.token;
+    // console.log("TOKEN LISTA VEICULOS: " + token);
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -119,8 +133,8 @@ export default class ListaVeiculos extends React.Component {
                     </Text>
                   </View>
                 }
-              />    
-              
+              />
+
               <Modal isVisible={this.state.isModalVisible}>
                 <View
                   style={{ flex: 1, backgroundColor: "#fff", borderRadius: 10 }}
@@ -163,16 +177,17 @@ export default class ListaVeiculos extends React.Component {
                       CONTATO: {usuario.contato}
                     </Text>
                   </View>
-                  {
-                    /*
+                  
                     <Picker
                       selectedValue={this.state.user}
                       onValueChange={this.detalhesUser}
                     >
-                      <Picker.Item label={usuario.name} value={valor a ser exibido} />
+                      <Picker.Item 
+                      label="Veiculos"
+                        value="teste" 
+                      />
                     </Picker>
-                    */
-                  }
+                    
                 </View>
               </Modal>
             </TouchableOpacity>

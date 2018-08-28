@@ -4,6 +4,9 @@
  * MINHA FUNCAO ACTION CREATOR QUE RETORNA UMA AÇÃO
  * DEFINICAO DE ACTIONS CREATORS
  */
+
+ import { LOGAR, CADASTRAR_USUARIO, PESQUISAR } from './actionsType'
+ 
 export const LOGAR = (email, senha, manterConectado) => ({
     type: 'LOGAR',
     payload: {

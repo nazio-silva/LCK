@@ -81,7 +81,7 @@ export default class FormLogin extends React.Component {
 
           // PASSANDO PARAMETRO LOGIN PARA PAGINA HOME
           this.saveData().then(() =>
-            this.props.navigation.navigate("Maps", { login: this.state.login, token: this.state.token })
+            this.props.navigation.navigate("Home", { token: this.state.token })
           );
         }
       });

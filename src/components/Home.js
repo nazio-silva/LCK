@@ -3,6 +3,9 @@ import { View } from "react-native";
 import { Header } from "react-native-elements";
 import Icon from "react-native-vector-icons/dist/FontAwesome";  
 
+import Pesquisa from "./Pesquisa";
+import ListaVeiculos from "./ListaVeiculos";
+
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +22,10 @@ export default class Home extends React.Component {
     ),
   };
   render() {
+
+    // RECEBENDO PARAMETRO POR NAVEGACAO
+    const usuario = this.props.navigation.state.params;
+    console.log("TOKEN HOME: " + usuario.token)
 
     return (
       <View style={{ flex: 1 }}>
@@ -41,7 +48,12 @@ export default class Home extends React.Component {
             },
           }}
         />
-        <Maps />
+        
+        <View style={{ flex: 1, paddingTop: '20%'}}>
+          <Pesquisa />
+          <ListaVeiculos token={usuario.token} />
+        </View>
+        
       </View>
     );
   }

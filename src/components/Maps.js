@@ -13,10 +13,10 @@ export default class Maps extends React.Component {
     super(props);
     this.state = {
       region: {
-        latitude: null,
-        longitude: null,
+        latitude: 0,
+        longitude: 0,
         latitudeDelta: null,
-        longitudeDelta: null
+        longitudeDelta: null,
       },
     };
   }
@@ -27,31 +27,35 @@ export default class Maps extends React.Component {
   };
 
   componentWillMount() {
-    navigator.geolocation.getCurrentPosition(position => {
-      console.log("Posição atualizada : " + position);
-      this.setState({
-        region: {
-          latitude : position.coords.latitude,
-          longitude : position.coords.longitude,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA
-        }
-      })
-    }, (error) => Alert.alert("Erro: " + error.message),
-    {enableHightAcuracy: true, timeout: 20000}
-  )
-  this.watchID = navigator.geolocation.watchPosition(position => {
-    const newRegion = {
-      latitude : position.coords.latitude,
-      longitude : position.coords.longitude,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA
-    }
-    this.setState({ region: newRegion })
-  })
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        console.log("Posição atualizada : " + position);
+        this.setState({
+          region: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          },
+        });
+      },
+      error => Alert.alert("Erro: " + error.message),
+      { enableHightAccuracy: true, timeout: 10000, maximumAge: 1000 }
+    );
+    this.watchID = navigator.geolocation.watchPosition(position => {
+      const newRegion = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      };
+      this.setState({ region: newRegion });
+    });
   }
 
   render() {
+    
+    // RECEBENDO PARAMETROS DA PAGINA DE LOGIN
     const usuario = this.props.navigation.state.params;
     console.log("MAPS: " + usuario.token);
 
@@ -77,29 +81,28 @@ export default class Maps extends React.Component {
           }}
         />
         <View style={{ flex: 1 }}>
-          {
-            this.state.region.latitude ?
+          {this.state.region.latitude ? (
             <MapView
-            style={{ flex: 1 }}
-            region={this.state.region}
-            showsUserLocation={true}
-            followsUserLocation={true}
-            //onRegionChange={this.onRegionChange}
+              style={{ flex: 1 }}
+              region={this.state.region}
+              showsUserLocation={true}
+              followsUserLocation={true}
+              //onRegionChange={this.onRegionChange}
             >
-            
-            <Marker
-              coordinate={{
-                latitude: this.state.lat,
-                longitude: this.state.long,
-              }}
-              title={usuario.login}
-              description="Posição Teste"
-            />
-            
+              <Marker
+                coordinate={{
+                  latitude: this.state.lat,
+                  longitude: this.state.long,
+                }}
+                title={usuario.login}
+                description="Posição Teste"
+              />
 
-            <SelectVeiculos token={usuario.token} />
-          </MapView> : Alert.alert("Erro")
-          }
+              <SelectVeiculos token={usuario.token} />
+            </MapView>
+          ) : (
+            Alert.alert("Erro")
+          )}
         </View>
       </View>
     );
@@ -108,4 +111,44 @@ export default class Maps extends React.Component {
 
 /** 
  * VERIFICAR POSICAO ATUAL DISPOSITIVO 23-08-18
+ * 
+ * componentDidMount() { 
+ * navigator.geolocation.getCurrentPosition((position) => { 
+ *    this.setState({ 
+ *        latitude: position.coords.latitude, 
+ *        longitude: position.coords.longitude, 
+ *        error: null, 
+ *    }); 
+ *      
+ *    var myApiKey = ''; 
+ *    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + position.coords.latitude + ',' + position.coords.longitude + '&key=' + myApiKey) 
+ *      .then((response) => response.json()) 
+ *      .then((responseJson) => { 
+ *          console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson)); 
+ *      var locationName = responseJson.results[0].address_components.filter(
+ *        x => x.types.filter(t => t === 'administrative_area_level_2').length > 0)[0].short_name; 
+ *        console.log(locationName); 
+ *        this.setState({ location: locationName, }) }) //nearby api 
+ 
+ *        var apiPlaceskey = ''; 
+ *         
+ *        //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=YOUR_API_KEY 
+ *        fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' 
+ *            + position.coords.latitude 
+ *            + ',' 
+ *            + position.coords.longitude 
+ *            + '&radius=2000&type=bus_station&key=' 
+ *            + apiPlaceskey) 
+ *              .then((respplaces) => respplaces.json()) 
+ *              .then((responseJson2) => { 
+ *                  const markers = responseJson2.results.map(
+ *                      (result) => ({ 
+ *                          latlng: { 
+ *                            latitude: result.geometry.location.lat, 
+ *                            longitude: result.geometry.location.lng, 
+ *                          } 
+ *                      })); 
+ *                    this.setState({ markers }); }); }, 
+ *                    (error) => this.setState({error: error.message}),
+ *                    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}, ); } 
  */

@@ -29,10 +29,13 @@ export default class MenuDrawer extends React.Component {
           placeholder="Pesquisar"
           onChangeText={this.pesquisar}
         />
-
-        <View style={{ backgroundColor: "#fff" }}>
+        {
+          /**
+           *  <View style={{ backgroundColor: "#fff" }}>
           <Text style={{ color: "red" }}>{this.state.texto}</Text>
         </View>
+           */
+        }
 
       </SideMenu>
     );
