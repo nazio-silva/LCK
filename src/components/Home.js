@@ -26,6 +26,7 @@ export default class Home extends React.Component {
     // RECEBENDO PARAMETRO POR NAVEGACAO
     const usuario = this.props.navigation.state.params;
     console.log("TOKEN HOME: " + usuario.token)
+    console.log("CLI_ID HOME: " + usuario.clienteId)
 
     return (
       <View style={{ flex: 1 }}>
@@ -50,19 +51,13 @@ export default class Home extends React.Component {
         />
         
         <View style={{ flex: 1, paddingTop: '20%'}}>
-          <Pesquisa />
-          <ListaVeiculos token={usuario.token} />
+          <Pesquisa token={usuario.token} clienteId={usuario.clienteId} />
+          {
+          //<ListaVeiculos token={usuario.token} clienteId={usuario.clienteId} />
+          }
         </View>
         
       </View>
     );
   }
 }
-
-
-/**
- * <View style={{ flex: 1, paddingTop: '20%'}}>
-          <Pesquisa />
-          <ListaVeiculos token={usuario.token} />
-        </View>
- */

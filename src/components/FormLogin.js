@@ -75,13 +75,17 @@ export default class FormLogin extends React.Component {
           // SETANDO TOKEN NA VARIAVEL DE ESTADO DO COMPONENTE DE ACORDO COM USUARIO
           this.setState({
             token: dados.token,
+            clienteID: dados.cli_id
           });
 
           console.log("ESTADO COM TOKEN: " + this.state.token);
 
           // PASSANDO PARAMETRO LOGIN PARA PAGINA HOME
           this.saveData().then(() =>
-            this.props.navigation.navigate("Home", { token: this.state.token })
+            this.props.navigation.navigate("Home", { 
+              token: this.state.token, 
+              clienteId: this.state.clienteID 
+            })
           );
         }
       });
@@ -207,11 +211,3 @@ const styles = StyleSheet.create({
   },
 });
 
-/*
-DEBUG REMOTO
-CMD-M > Dev settings > Debug server host & port for device > digite "localhost: 8081"
-
-ARMAZENAR NO LOCALSTORAGE 
-  TOKEN DE ACESSO
-  CLIENTEID
-*/

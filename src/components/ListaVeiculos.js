@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 
 import { View, ScrollView, Text, TouchableOpacity, Alert, Picker } from "react-native";
@@ -20,7 +19,6 @@ export default class ListaVeiculos extends React.Component {
       user: "",
       lista: [],
     };
-    this.BUSCA_VEICULOS = this.BUSCA_VEICULOS.bind(this);
   }
 
   // METODO PARA VISUALIZAR NO MODAL O USUARIO SELECIONADO
@@ -35,65 +33,14 @@ export default class ListaVeiculos extends React.Component {
     });
   };
 
-  BUSCA_VEICULOS() {
-    // ADICIONAR TOKEN DO USUARIO LOGADO NA URL
-    const token = this.props.token;
-    const URL_BUSCA_VEICULO =
-      "http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BUSCA_VEICULOS&token=" + token
-    
-    console.log("URL + TOKEN: " + URL_BUSCA_VEICULO)
-    
-    axios.get(URL_BUSCA_VEICULO)
-      .then(res => { 
-        const veiculos = res.data;
-        this.setState({ lista: veiculos });
-        console.log(this.state.lista)
-      })
-      .catch(err => console.log(err));
-  }
-
-  componentDidMount() {
-    return this.BUSCA_VEICULOS()
-  }
-
   render() {
-    
-    const lista = [
-      {
-        name: "Maria",
-        veiculo: "car",
-        placa: "HDK-4525",
-        contato: "1111-1111",
-      },
-      {
-        name: "Antonia",
-        veiculo: "bicycle",
-        placa: "HBO-6585",
-        contato: "2222-2222",
-      },
-      {
-        name: "Francisco",
-        veiculo: "car",
-        placa: "KSH-7845",
-        contato: "3333-3333",
-      },
-      {
-        name: "Joao",
-        veiculo: "motorcycle",
-        placa: "GBD-0565",
-        contato: "4444-4444",
-      },
-      {
-        name: "Francisco",
-        veiculo: "car",
-        placa: "KSH-7845",
-        contato: "3333-3333",
-      },
-    ];
 
-    // RECEBENDO TOKEN COMO PROPRIEDADE
-    // const token = this.props.token;
-    // console.log("TOKEN LISTA VEICULOS: " + token);
+    // RECEBENDO A LISTA DE VEICULOS DO COMPONENTE PESQUISA
+    const listaVeiculos = this.props.listaVeiculos;
+    const texto = this.props.texto;
+
+    console.log("Componete de ListaVeiculos: " + listaVeiculos)  
+    console.log("Componete de ListaVeiculos: " + texto)  
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -103,33 +50,37 @@ export default class ListaVeiculos extends React.Component {
               <Text style={{ fontSize: 20, color: "#fff" }}> Clientes </Text>
             }
             rightComponent={
-              <Text style={{ fontSize: 20, color: "#fff" }}> Veiculos </Text>
+              <Text style={{ fontSize: 20, color: "#fff" }}> Veículos </Text>
             }
           />
         </View>
 
-        <ScrollView style={{ flex: 1, backgroundColor: "#fff" }}>
-          {lista.map((usuario, indice) => (
-            <TouchableOpacity onPress={this._toggleModal} key={indice}>
+          <ScrollView style={{ flex: 1, backgroundColor: "#fff" }}>
+          {//this.state.listaVeiculos.map((veiculo,index) => { key={index}
+            <TouchableOpacity onPress={this._toggleModal} >
               <ListItem
                 style={{ backgroundColor: "#fff", marginLeft: 10 }}
                 leftIcon={
                   <View size={20} style={{ flexDirection: "row" }}>
                     <Icon name="user-o" size={20} style={{ color: "black" }} />
                     <Text style={{ marginLeft: 10, color: "black" }}>
-                      {usuario.name}
+                      {
+                        //veiculo.uVei  //this.state.lista.dados.map(u => console.log(u.seq))
+                      }
                     </Text>
                   </View>
                 }
                 rightIcon={
                   <View size={20} style={{ flexDirection: "row" }}>
                     <Icon
-                      name={usuario.veiculo}
+                      //name={usuario.veiculo}  // OBSERVAÇÃO DO TIPO DE VEICULO
                       size={20}
                       style={{ color: "black" }}
                     />
                     <Text style={{ marginLeft: 10, color: "black" }}>
-                      {usuario.placa}
+                      {
+                        //usuario.uVEI_PLC
+                      }
                     </Text>
                   </View>
                 }
@@ -165,43 +116,49 @@ export default class ListaVeiculos extends React.Component {
                     }}
                   >
                     <Text style={{ color: "black", fontSize: 30 }}>
-                      PROPRIETARIO: {usuario.name}
+                      PROPRIETARIO:
                     </Text>
                     <Text style={{ color: "black", fontSize: 30 }}>
-                      VEICULO: {usuario.veiculo}
+                      VEICULO:
                     </Text>
                     <Text style={{ color: "black", fontSize: 30 }}>
-                      PLACA: {usuario.placa}
+                      PLACA:
                     </Text>
                     <Text style={{ color: "black", fontSize: 30 }}>
-                      CONTATO: {usuario.contato}
+                      CONTATO:
                     </Text>
                   </View>
-                  
-                    <Picker
-                      selectedValue={this.state.user}
-                      onValueChange={this.detalhesUser}
-                    >
-                      <Picker.Item 
-                      label="Veiculos"
-                        value="teste" 
-                      />
-                    </Picker>
-                    
+
+                  <Picker
+                    selectedValue={this.state.user}
+                    onValueChange={this.detalhesUser}
+                  >
+                    <Picker.Item
+                      label="AÇÕES"
+                      value="teste" // OBS
+                    />
+                  </Picker>
                 </View>
               </Modal>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
+            //})
+          }
+          </ScrollView>
       </View>
     );
   }
 }
 
-// Retirar Picker 21-08-17
-
-/*
-    - LISTA DE VEICULOS
-        - O USUARIO PODERA FAZER A PESQUISA PELO NOME DO PROP. OU PLACA DO VEICULO
-        - EXIBE A LISTA COM NOME DO USUARIO - TIPO VEICULO ( M / C ) - PLACA 
-*/
+/** TESTAR EXIBIR NA LISTA
+ * <View style={{ flex: 1 }}>
+          {
+            this.state.listaVeiculos.map((veiculo,index) => {
+              if((this.state.texto - 1) === veiculo.uVei) {
+                return <Text key={index}style={{ color: "red" }}>{veiculo.uVei}</Text>
+              } else {
+                console.log("Veiculo nao encontrado!")
+              }
+            })
+          }
+        </View>
+ */
