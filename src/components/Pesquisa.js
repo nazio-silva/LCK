@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from 'react-native';
 
 import { SearchBar } from "react-native-elements";
-//import ListaVeiculos from './ListaVeiculos'
+import ListaVeiculos from './ListaVeiculos'
 import SideMenu from "react-native-side-menu";
 
 //import { Header } from "react-native-elements";
@@ -58,15 +58,16 @@ export default class MenuDrawer extends React.Component {
           onChangeText={this.pesquisar}
         />  
 
-        {
-          //<ListaVeiculos listaVeiculos={this.state.listaVeiculos} texto={this.state.texto} />
-        }
-
         <View style={{ flex: 1 }}>
           {
             this.state.listaVeiculos.map((veiculo,index) => {
+              
+              // PEGANDO NOME DO PROPRIETARIO
+              const proprietario = veiculo.uVei.split(" ").pop();
+              console.log(proprietario)
+
               if(this.state.texto === veiculo.uVei) {  
-                return <Text key={index} style={{ color: "red" }}>{veiculo.uVei}</Text>
+                return <ListaVeiculos item={veiculo.uVei} veiculo={veiculo} proprietario={proprietario} />
               } else {
                 console.log("Veiculo nao encontrado!")
               }
@@ -77,28 +78,3 @@ export default class MenuDrawer extends React.Component {
     );
   }
 }
-
-// RENOMEAR ESTE COMPONENTE
-
-/**
- <View style={{ flexDirection: "row" }}>
-            <TextInput
-              style={{
-                marginRight: 10,
-                height: 40,
-                width: 250,
-                borderColor: "blue",
-                borderWidth: 2,
-                borderRadius: 10,
-                textAlign: "center",
-              }}
-              placeholder="Digite a placa do veiculo"
-              required
-              onChangeText={this.pesquisar}
-            />
-            
-            <Icon name="search" size={30} style={{ color: "#4682B4" }} />
-
-          </View>
-  
- */

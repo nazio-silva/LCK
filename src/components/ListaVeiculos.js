@@ -36,27 +36,30 @@ export default class ListaVeiculos extends React.Component {
   render() {
 
     // RECEBENDO A LISTA DE VEICULOS DO COMPONENTE PESQUISA
-    const listaVeiculos = this.props.listaVeiculos;
-    const texto = this.props.texto;
+    const item = this.props.item;
+    const veiculo = this.props.veiculo;
+    const proprietario = this.props.proprietario;
 
-    console.log("Componete de ListaVeiculos: " + listaVeiculos)  
-    console.log("Componete de ListaVeiculos: " + texto)  
+    console.log("ITEM: " + item)  
+    console.log("VEICULOS: " + veiculo)  
+    console.log("PROPRIETARIO: " + proprietario)  
+
+    //const placa = item.split(" ",[1]);
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View>
           <Header
             leftComponent={
-              <Text style={{ fontSize: 20, color: "#fff" }}> Clientes </Text>
+              <Text style={{ fontSize: 20, color: "#fff" }}> Cliente </Text>
             }
             rightComponent={
-              <Text style={{ fontSize: 20, color: "#fff" }}> Veículos </Text>
+              <Text style={{ fontSize: 20, color: "#fff" }}> Veículo </Text>
             }
           />
         </View>
 
           <ScrollView style={{ flex: 1, backgroundColor: "#fff" }}>
-          {//this.state.listaVeiculos.map((veiculo,index) => { key={index}
             <TouchableOpacity onPress={this._toggleModal} >
               <ListItem
                 style={{ backgroundColor: "#fff", marginLeft: 10 }}
@@ -64,23 +67,19 @@ export default class ListaVeiculos extends React.Component {
                   <View size={20} style={{ flexDirection: "row" }}>
                     <Icon name="user-o" size={20} style={{ color: "black" }} />
                     <Text style={{ marginLeft: 10, color: "black" }}>
-                      {
-                        //veiculo.uVei  //this.state.lista.dados.map(u => console.log(u.seq))
-                      }
+                      { proprietario }
                     </Text>
                   </View>
                 }
                 rightIcon={
                   <View size={20} style={{ flexDirection: "row" }}>
                     <Icon
-                      //name={usuario.veiculo}  // OBSERVAÇÃO DO TIPO DE VEICULO
+                      name="car"  // OBSERVAÇÃO DO TIPO DE VEICULO
                       size={20}
                       style={{ color: "black" }}
                     />
                     <Text style={{ marginLeft: 10, color: "black" }}>
-                      {
-                        //usuario.uVEI_PLC
-                      }
+                      { item.split(" ", 1) }
                     </Text>
                   </View>
                 }
@@ -141,8 +140,6 @@ export default class ListaVeiculos extends React.Component {
                 </View>
               </Modal>
             </TouchableOpacity>
-            //})
-          }
           </ScrollView>
       </View>
     );
