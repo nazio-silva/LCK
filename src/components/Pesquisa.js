@@ -1,12 +1,9 @@
 import React from "react";
-import { View, Text } from 'react-native';
+import { View, Alert, Text } from 'react-native';
 
 import { SearchBar } from "react-native-elements";
 import ListaVeiculos from './ListaVeiculos'
 import SideMenu from "react-native-side-menu";
-
-//import { Header } from "react-native-elements";
-//import { ListItem } from "react-native-elements";
 
 import axios from 'axios'
 
@@ -14,7 +11,7 @@ export default class MenuDrawer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      texto: " ",
+      texto: "",
       listaVeiculos: []
     };
     this.pesquisar = this.pesquisar.bind(this);
@@ -49,32 +46,53 @@ export default class MenuDrawer extends React.Component {
 
   render() {
     return (
-      <SideMenu style={{ flex: 1 }}>
-        <SearchBar
-          value={this.state.texto}
-          showLoading
-          lightTheme
-          placeholder="Pesquisar pelo veiculo"
-          onChangeText={this.pesquisar}
-        />  
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <SideMenu style={{ flex: 1, backgroundColor: "#fff" }}>
+          <SearchBar
+            value={this.state.texto}
+            showLoading
+            lightTheme
+            placeholder="Pesquisar pelo veiculo"
+            onChangeText={this.pesquisar}
+          />  
 
-        <View style={{ flex: 1 }}>
-          {
-            this.state.listaVeiculos.map((veiculo,index) => {
-              
-              // PEGANDO NOME DO PROPRIETARIO
-              const proprietario = veiculo.uVei.split(" ").pop();
-              console.log(proprietario)
+          <View style={{ flex: 1, backgroundColor: "#fff" }}>
+            {
+              this.state.listaVeiculos.map((veiculo,index) => {
+                
+                // PEGANDO NOME DO PROPRIETARIO RETIRADO DA ULTIMA POSICAO DO ARRAY
+                const proprietario = veiculo.uVei.split(" ").pop();
+                console.log("Proprietario: " + proprietario)
+                
+                // PEGANDO PLACA DO VEICULO 
+                const placa = veiculo.uVei.split(" ", 1)
+                console.log("Placa: " + placa)
 
-              if(this.state.texto === veiculo.uVei) {  
+                if(veiculo.uVei.indexOf(this.state.texto) != -1 || this.state.texto == '') {   
+                  return <ListaVeiculos item={veiculo.uVei} veiculo={veiculo} proprietario={proprietario} />              
+                } else {
+                  console.log("Veiculo nao encontrado!")
+                }
+              })
+            }
+          </View>
+        </SideMenu>
+      </View>
+    );
+  }
+}
+
+
+/**
+ *  if(this.state.texto === veiculo.uVei || this.state.texto.toUpperCase() === veiculo.uVei) {  
                 return <ListaVeiculos item={veiculo.uVei} veiculo={veiculo} proprietario={proprietario} />
               } else {
                 console.log("Veiculo nao encontrado!")
               }
-            })
-          }
-        </View>
-      </SideMenu>
-    );
-  }
-}
+
+    if(veiculo.uVei.indexOf(this.state.texto) != -1 || this.state.texto == '') {   
+      return <View><Text>{veiculo.uVei}</Text></View>//<ListaVeiculos item={veiculo.uVei} veiculo={veiculo} proprietario={proprietario} />
+    } else {
+      console.log("Veiculo nao encontrado!")
+    }
+ */

@@ -40,11 +40,9 @@ export default class ListaVeiculos extends React.Component {
     const veiculo = this.props.veiculo;
     const proprietario = this.props.proprietario;
 
-    console.log("ITEM: " + item)  
-    console.log("VEICULOS: " + veiculo)  
-    console.log("PROPRIETARIO: " + proprietario)  
-
-    //const placa = item.split(" ",[1]);
+    console.log("ITEM LV: " + item)  
+    console.log("VEICULOS LV: " + veiculo)  
+    console.log("PROPRIETARIO LV: " + proprietario)  
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -57,14 +55,14 @@ export default class ListaVeiculos extends React.Component {
               <Text style={{ fontSize: 20, color: "#fff" }}> Veículo </Text>
             }
           />
-        </View>
+        </View>S
 
-          <ScrollView style={{ flex: 1, backgroundColor: "#fff" }}>
+          <View style={{ backgroundColor: "#fff" }}>
             <TouchableOpacity onPress={this._toggleModal} >
               <ListItem
                 style={{ backgroundColor: "#fff", marginLeft: 10 }}
                 leftIcon={
-                  <View size={20} style={{ flexDirection: "row" }}>
+                  <View size={20} style={{ flexDirection: "row", backgroundColor: "#fff" }}>
                     <Icon name="user-o" size={20} style={{ color: "black" }} />
                     <Text style={{ marginLeft: 10, color: "black" }}>
                       { proprietario }
@@ -72,7 +70,7 @@ export default class ListaVeiculos extends React.Component {
                   </View>
                 }
                 rightIcon={
-                  <View size={20} style={{ flexDirection: "row" }}>
+                  <View size={20} style={{ flexDirection: "row", backgroundColor: "#fff" }}>
                     <Icon
                       name="car"  // OBSERVAÇÃO DO TIPO DE VEICULO
                       size={20}
@@ -140,22 +138,8 @@ export default class ListaVeiculos extends React.Component {
                 </View>
               </Modal>
             </TouchableOpacity>
-          </ScrollView>
+          </View>
       </View>
     );
   }
 }
-
-/** TESTAR EXIBIR NA LISTA
- * <View style={{ flex: 1 }}>
-          {
-            this.state.listaVeiculos.map((veiculo,index) => {
-              if((this.state.texto - 1) === veiculo.uVei) {
-                return <Text key={index}style={{ color: "red" }}>{veiculo.uVei}</Text>
-              } else {
-                console.log("Veiculo nao encontrado!")
-              }
-            })
-          }
-        </View>
- */

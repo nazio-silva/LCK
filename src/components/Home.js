@@ -29,7 +29,7 @@ export default class Home extends React.Component {
     console.log("CLI_ID HOME: " + usuario.clienteId)
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Header
           leftComponent={
             <Icon
@@ -50,13 +50,10 @@ export default class Home extends React.Component {
           }}
         />
         
-        <View style={{ flex: 1, paddingTop: '20%'}}>
+        <View style={{ flex: 1, backgroundColor: "#fff"}}>
           <Pesquisa token={usuario.token} clienteId={usuario.clienteId} />
-          {
-          //<ListaVeiculos token={usuario.token} clienteId={usuario.clienteId} />
-          }
         </View>
-        
+
       </View>
     );
   }
