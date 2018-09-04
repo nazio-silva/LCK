@@ -2,6 +2,7 @@ import axios from "axios";
 
 import React from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Button, Alert, AsyncStorage } from "react-native";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import { Header, CheckBox } from "react-native-elements";
 import Modal from "react-native-modal";
@@ -26,6 +27,9 @@ export default class FormLogin extends React.Component {
       clienteID: "",
       checked: false,
       isModalVisible: false,
+
+      visibleSpinner: false,
+
     };
     this.LOGIN = this.LOGIN.bind(this);
     this.manterConectado = this.manterConectado.bind(this);
@@ -34,7 +38,7 @@ export default class FormLogin extends React.Component {
   // ARMAZENANDO DADOS NO LOCAL STORAGE
   saveData = async () => {
     try {
-      await AsyncStorage.setItem(this.state.token, "true");
+      await AsyncStorage.setItem('token', this.state.token);
       console.log("MEU TOKEN: " + this.state.token);
 
       this.props.navigation.navigate("Token", { token: this.state.token });
@@ -43,12 +47,12 @@ export default class FormLogin extends React.Component {
     }
   };
 
-  // RECUPERANDO DADOS NO LOCAL STORAGE
+  // RECUPERANDO DADOS NO LOCAL STORAGE - GETITEM
   recuperarData = async () => {
     try {
-      const valor = await AsyncStorage.getItem(this.state.token);
+      const valor = await AsyncStorage.getItem('token',this.state.token);
       if (valor !== null) {
-        console.log("Valor: " + valor);
+        console.log("Valor do meu Token: " + valor);
       }
     } catch (error) {
       console.log("Erro ao recuperar dados: " + error);
@@ -59,34 +63,35 @@ export default class FormLogin extends React.Component {
   LOGIN() {
     const URLPOST = URL + this.state.login + "&senha=" + this.state.senha;
     if (this.state.login === "" || this.state.senha === "") {
-      console.log("E-mail ou senha Invalidos!");
       Alert.alert("E-mail ou senha Invalido!");
     } else if (this.state.checked) {
       //VERIFICAR this.state.checked
       axios.post(URLPOST).then(res => {
         if (res.data.success === true) {
           console.log("Dados enviados com sucesso!");
-
           const dados = res.data;
           console.log(dados);
-
           console.log("CLIENTE-ID: " + dados.cli_id);
 
           // SETANDO TOKEN NA VARIAVEL DE ESTADO DO COMPONENTE DE ACORDO COM USUARIO
           this.setState({
             token: dados.token,
-            clienteID: dados.cli_id
+            clienteID: dados.cli_id,
           });
 
           console.log("ESTADO COM TOKEN: " + this.state.token);
 
           // PASSANDO PARAMETRO LOGIN PARA PAGINA HOME
-          this.saveData().then(() =>
-            this.props.navigation.navigate("Home", { 
-              token: this.state.token, 
-              clienteId: this.state.clienteID 
-            })
-          );
+          this.saveData()
+            .then(() => 
+              this.props.navigation.navigate("Home", { 
+                token: this.state.token, 
+                clienteId: this.state.clienteID,
+                visibleSpinner: !this.state.visibleSpinner
+              })
+            )
+            .then(
+              setInterval(() => {}, 2000))
         }
       });
     }
@@ -95,9 +100,7 @@ export default class FormLogin extends React.Component {
   // FUNCAO QUE AUTENTICA USANDO TOKEN EXISTENTE 17-08-19
   manterConectado() {
     if (this.state.checked === false) {
-      //this.state.recuperarData
       console.log("Entrar sem autenticar novamente");
-      this.recuperarData();
     } else {
       console.log("Digitar Login e Senha!");
     }
@@ -114,7 +117,7 @@ export default class FormLogin extends React.Component {
       <View style={styles.view}>
         <Logo />
         <View style={styles.form}>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", marginBottom: 20, marginRight: 10 }}>
             <Icon name="user" size={30} style={{ color: "#4682B4" }} />
             <TextInput
               style={{
@@ -127,12 +130,11 @@ export default class FormLogin extends React.Component {
                 textAlign: "center",
               }}
               placeholder="Digite seu e-mail"
-              required
               onChangeText={login => this.setState({ login })}
             />
           </View>
 
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", marginRight: 10 }}>
             <Icon name="lock" size={40} style={{ color: "#4682B4" }} />
             <TextInput
               style={{
@@ -146,26 +148,33 @@ export default class FormLogin extends React.Component {
               }}
               secureTextEntry={true}
               placeholder="Digite sua senha"
-              required
               onChangeText={senha => this.setState({ senha })}
             />
           </View>
+          
+          <View style={{ marginLeft: 30, margin: 10 }}>
+            <CheckBox
+              title="Manter-se Conectado"
+              checked={this.state.checked}
+              onPress={this.manterConectado}
+            /> 
+          </View>  
 
-          <CheckBox
-            title="Manter-se Conectado"
-            checked={this.state.checked}
-            onPress={this.manterConectado}
-          />
+          <Spinner visible={this.state.visibleSpinner} textContent={"Carregando..."} textStyle={{color: 'red'}} />       
 
-          <View>
-            <Button title="ENTRAR" onPress={this.LOGIN} />
+          <View style={{ height: 40, width: 200, marginLeft: 20 }}>
+            <Button
+              title="ENTRAR" 
+              onPress={this.LOGIN} />
           </View>
 
-          <TouchableOpacity onPress={this._toggleModal}>
-            <Text style={{ color: "red", fontSize: 20 }}>
-              Esqueceu a senha?
-            </Text>
-          </TouchableOpacity>
+          <View style={{ marginLeft: 30}}>
+            <TouchableOpacity onPress={this._toggleModal}>
+              <Text style={{ color: "red", fontSize: 20 }}>
+                Esqueceu a senha?
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <Modal isVisible={this.state.isModalVisible}>
@@ -200,14 +209,14 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   form: {
-    flex: 1, //2
-    //paddingTop: 50,
+    flex: 1, 
     justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center",
-    width: 400,
+    marginBottom: 40
   },
 });
 

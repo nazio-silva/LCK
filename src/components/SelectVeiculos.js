@@ -14,6 +14,8 @@ export default class SelectVeiculos extends React.Component {
     const token = this.props.token;
    
     console.log("TOKEN SelectVeiculos: " + token)
+    
+    // CORRIGIR ESSA URL - ALTERAR PARA URL NOVA
     const URL_BUSCA_VEICULO = 
     'http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BUSCA_VEICULOS&token='
 
@@ -37,3 +39,5 @@ export default class SelectVeiculos extends React.Component {
     );
   }
 }
+
+// FAZER ALTERAÇOES NESTE COMPONENTE 

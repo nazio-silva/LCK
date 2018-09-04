@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "react-devtools": "react-devtools",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
@@ -13,6 +14,7 @@
     "react-native-animated-modal": "^1.1.0",
     "react-native-drawer": "^2.5.0",
     "react-native-elements": "^0.19.1",
+    "react-native-loading-spinner-overlay": "^0.5.2",
     "react-native-maps": "^0.21.0",
     "react-native-maps-directions": "^1.6.0",
     "react-native-modal": "^6.5.0",
@@ -27,6 +29,7 @@
     "babel-jest": "23.4.2",
     "babel-preset-react-native": "4.0.0",
     "jest": "23.4.2",
+    "react-devtools": "^3.3.2",
     "react-test-renderer": "16.4.1"
   },
   "jest": {

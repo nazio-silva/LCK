@@ -13,8 +13,9 @@ export default class Logo extends React.Component {
 
 const styles = StyleSheet.create({
   view: {
-    flex: 1,
-    marginTop: 30,
+    marginTop: 40,
+    height: 150,
+    marginBottom: 90
   },
   logo: {
     justifyContent: "center",

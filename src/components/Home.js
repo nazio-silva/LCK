@@ -4,7 +4,6 @@ import { Header } from "react-native-elements";
 import Icon from "react-native-vector-icons/dist/FontAwesome";  
 
 import Pesquisa from "./Pesquisa";
-import ListaVeiculos from "./ListaVeiculos";
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -30,30 +29,28 @@ export default class Home extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <Header
-          leftComponent={
-            <Icon
-              name="bars"
-              size={30}
-              color="white"
-              onPress={() => this.props.navigation.openDrawer()}
-            />
-          }
-          centerComponent={{
-            text: "LOCKTEC",
-            style: {
-              color: "#fff",
-              fontSize: 30,
-              width: "100%",
-              textAlign: "center",
-            },
-          }}
-        />
-        
-        <View style={{ flex: 1, backgroundColor: "#fff"}}>
-          <Pesquisa token={usuario.token} clienteId={usuario.clienteId} />
-        </View>
+          <Header
+            leftComponent={
+              <Icon
+                name="bars"
+                size={30}
+                color="white"
+                onPress={() => this.props.navigation.openDrawer()}
+              />
+            }
+            centerComponent={{
+              text: "LOCKTEC",
+              style: {
+                color: "#fff",
+                fontSize: 30,
+                width: "100%",
+                textAlign: "center",
+              },
+            }}
+          />
 
+          <Pesquisa token={usuario.token} clienteId={usuario.clienteId} />
+          
       </View>
     );
   }

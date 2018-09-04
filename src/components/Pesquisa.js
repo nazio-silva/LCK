@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Alert, Text } from 'react-native';
+import { View, Alert } from 'react-native';
 
 import { SearchBar } from "react-native-elements";
 import ListaVeiculos from './ListaVeiculos'
@@ -54,45 +54,36 @@ export default class MenuDrawer extends React.Component {
             lightTheme
             placeholder="Pesquisar pelo veiculo"
             onChangeText={this.pesquisar}
-          />  
+          /> 
 
-          <View style={{ flex: 1, backgroundColor: "#fff" }}>
-            {
-              this.state.listaVeiculos.map((veiculo,index) => {
-                
-                // PEGANDO NOME DO PROPRIETARIO RETIRADO DA ULTIMA POSICAO DO ARRAY
-                const proprietario = veiculo.uVei.split(" ").pop();
-                console.log("Proprietario: " + proprietario)
-                
-                // PEGANDO PLACA DO VEICULO 
-                const placa = veiculo.uVei.split(" ", 1)
-                console.log("Placa: " + placa)
+          {
+            //  OBSERVAÇAO: LOOP DEV SER FEITO NO COMPONENTE DE LISTA 
+            
+            this.state.listaVeiculos.map((veiculo, index) => {
+              
+              // PEGANDO NOME DO PROPRIETARIO RETIRADO DA ULTIMA POSICAO DO ARRAY
+              const proprietario = veiculo.uVei.split(" ").pop();
+              console.log("Proprietario: " + proprietario)
+              
+              // PEGANDO PLACA DO VEICULO 
+              const placa = veiculo.uVei.split(" ", 1)
+              console.log("Placa: " + placa)
+              
+              // CONVERTENDO DADOS PARA LETRAS MINUSCULA
+              const dados = veiculo.uVei.toLowerCase();
+              console.log("MIN: " + dados)
 
-                if(veiculo.uVei.indexOf(this.state.texto) != -1 || this.state.texto == '') {   
-                  return <ListaVeiculos item={veiculo.uVei} veiculo={veiculo} proprietario={proprietario} />              
-                } else {
-                  console.log("Veiculo nao encontrado!")
-                }
-              })
-            }
-          </View>
+              if(veiculo.uVei.indexOf(this.state.texto) != -1 || this.state.texto == '' || dados.indexOf(this.state.texto) != -1) { 
+                return <ListaVeiculos item={veiculo.uVei} veiculo={veiculo} proprietario={proprietario} key={index} />         
+              } else {
+                console.log("Veiculo nao encontrado!")
+                //Alert.alert("Veiculo não encontrado!") 
+              }
+            })  
+          }
+          
         </SideMenu>
       </View>
     );
   }
 }
-
-
-/**
- *  if(this.state.texto === veiculo.uVei || this.state.texto.toUpperCase() === veiculo.uVei) {  
-                return <ListaVeiculos item={veiculo.uVei} veiculo={veiculo} proprietario={proprietario} />
-              } else {
-                console.log("Veiculo nao encontrado!")
-              }
-
-    if(veiculo.uVei.indexOf(this.state.texto) != -1 || this.state.texto == '') {   
-      return <View><Text>{veiculo.uVei}</Text></View>//<ListaVeiculos item={veiculo.uVei} veiculo={veiculo} proprietario={proprietario} />
-    } else {
-      console.log("Veiculo nao encontrado!")
-    }
- */
