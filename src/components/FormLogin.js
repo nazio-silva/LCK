@@ -33,13 +33,18 @@ export default class FormLogin extends React.Component {
     };
     this.LOGIN = this.LOGIN.bind(this);
     this.manterConectado = this.manterConectado.bind(this);
+
+    //this.saveData();
+    //this.recuperarData();
   }
 
   // ARMAZENANDO DADOS NO LOCAL STORAGE
   saveData = async () => {
     try {
       await AsyncStorage.setItem('token', this.state.token);
-      console.log("MEU TOKEN: " + this.state.token);
+      console.log("SAVE DATA: " + this.state.token);
+      console.log("SAVE DATA: " + this.state.login);
+      console.log("SAVE DATA: " + this.state.senha);
 
       this.props.navigation.navigate("Token", { token: this.state.token });
     } catch (error) {
@@ -50,9 +55,12 @@ export default class FormLogin extends React.Component {
   // RECUPERANDO DADOS NO LOCAL STORAGE - GETITEM
   recuperarData = async () => {
     try {
-      const valor = await AsyncStorage.getItem('token',this.state.token);
-      if (valor !== null) {
-        console.log("Valor do meu Token: " + valor);
+      const token = await AsyncStorage.getItem('token',this.state.token);
+      //const login = await AsyncStorage.getItem('login', this.state.login); //'senha', this.state.senha
+      //const senha = await AsyncStorage.getItem('senha', this.state.senha);
+      if (token !== null) {
+        console.log("RECUPERAR DATA: " + token);
+        return this.LOGIN()
       }
     } catch (error) {
       console.log("Erro ao recuperar dados: " + error);
@@ -64,8 +72,9 @@ export default class FormLogin extends React.Component {
     const URLPOST = URL + this.state.login + "&senha=" + this.state.senha;
     if (this.state.login === "" || this.state.senha === "") {
       Alert.alert("E-mail ou senha Invalido!");
-    } else if (this.state.checked) {
+    } else {  // || this.state.token adicionado
       //VERIFICAR this.state.checked
+
       axios.post(URLPOST).then(res => {
         if (res.data.success === true) {
           console.log("Dados enviados com sucesso!");
@@ -88,8 +97,8 @@ export default class FormLogin extends React.Component {
                 token: this.state.token, 
                 clienteId: this.state.clienteID,
                 visibleSpinner: !this.state.visibleSpinner
-              })
-            )
+              }
+            ))
             .then(
               setInterval(() => {}, 2000))
         }
@@ -101,6 +110,8 @@ export default class FormLogin extends React.Component {
   manterConectado() {
     if (this.state.checked === false) {
       console.log("Entrar sem autenticar novamente");
+      this.recuperarData()
+      //this.props.navigation.navigate("Home")
     } else {
       console.log("Digitar Login e Senha!");
     }

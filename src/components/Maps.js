@@ -15,8 +15,8 @@ export default class Maps extends React.Component {
       region: {
         latitude: 0,
         longitude: 0,
-        latitudeDelta: null,
-        longitudeDelta: null,
+        latitudeDelta: 0,  //null
+        longitudeDelta: 0, //null
       },
     };
   }
@@ -29,9 +29,6 @@ export default class Maps extends React.Component {
   componentWillMount() {
     navigator.geolocation.getCurrentPosition(
       position => {
-        console.log("Posição atualizada : " + position);
-        console.log("Posição atualizada LAT : " + position.coords.latitude);
-        console.log("Posição atualizada LOG : " + position.coords.longitude);
         this.setState({
           region: {
             latitude: position.coords.latitude,
@@ -42,7 +39,7 @@ export default class Maps extends React.Component {
         });
       },
       error => Alert.alert("Erro: " + error.message),
-      { enableHightAccuracy: true, timeout: 10000 } //maximumAge: 1000
+      { enableHightAccuracy: true, timeout: 10000, maximumAge: 1000 }
     );
     this.watchID = navigator.geolocation.watchPosition(position => {
       const newRegion = {
@@ -84,27 +81,31 @@ export default class Maps extends React.Component {
           }}
         />
         <View style={{ flex: 1 }}>
-          {this.state.region.latitude ? (
+          {this.state.region.latitude ? ( 
             <MapView
               style={{ flex: 1 }}
               region={this.state.region}
               showsUserLocation={true}
               followsUserLocation={true}
+              maximumZ={10}
             >
-              <Marker
-                coordinate={{
-                  latitude: this.state.latitude,
-                  longitude: this.state.longitude,
-                }}
-                title="Teste" //{usuario.login}
-                description="Posição Teste"
-              />
-            </MapView>
-          ) : (
-            Alert.alert("Erro")
+
+            <Marker
+              coordinate={
+                this.state.region
+                //latitude: this.state.region.latitude,
+                //longitude: this.state.region.longitude,
+              }
+              title="Teste" //{usuario.login}
+              description="Posição Teste"
+            />
+
+           </MapView> ) : (
+              Alert.alert("Erro")
           )}
         </View>
       </View>
     );
   }
 }
+
