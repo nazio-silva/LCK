@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Alert } from 'react-native';
+import { View, Alert, ScrollView } from 'react-native';
 
 import { SearchBar } from "react-native-elements";
 import ListaVeiculos from './ListaVeiculos'
@@ -7,42 +7,50 @@ import SideMenu from "react-native-side-menu";
 
 import axios from 'axios'
 
+const URL_BUSCA_CLIENTE = "http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BUSCA_CLIENTES&token=";
+
 export default class MenuDrawer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       texto: "",
-      listaVeiculos: []
+      token:"",
+      cli_id: "",
+      listaClientes: []
     };
     this.pesquisar = this.pesquisar.bind(this);
   }
 
   componentDidMount() {
-
-    // ADICIONAR TOKEN DO USUARIO LOGADO NA URL
     const token = this.props.token;
     const cli_id = this.props.clienteId;
 
-    console.log("Token PES: " + token);
-    console.log("CLIENTE_ID PES: " + cli_id);
+    this.setState({ 
+      token,
+      cli_id 
+    });
 
-    const URL_BUSCA_VEICULO =
-      "http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BUSCA_VEICULOS&token=" + token + "&cliente=" + cli_id;
-
-      console.log("URL + TOKEN: " + URL_BUSCA_VEICULO);
+    const URL_BUSCA_CLIENTE =
+      "http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BUSCA_CLIENTES&token=" 
+      + token +"&cliente=" + cli_id + "&page=1&query=" + this.state.texto;
+      //console.log(URL_BUSCA_CLIENTE)
 
     axios
-      .get(URL_BUSCA_VEICULO)
+      .get(URL_BUSCA_CLIENTE)
       .then(res => {
-        const veiculos = res.data.dados;
-        this.setState({ listaVeiculos: veiculos });
+        const clientes = res.data.dados;
+        this.setState({ listaClientes: clientes });
       })
       .catch(err => console.log("Erro ao buscar dados da API: " + err));
   }
 
   pesquisar(texto) {
-    this.setState({ texto });   
-  }
+    this.setState({ texto });
+    axios.post(URL_BUSCA_CLIENTE + this.state.token +"&cliente=" + this.state.cli_id + "&page=1&query=" + this.state.texto)
+      .then(() => console.log("Encontrado")) 
+      .catch(() => console.log("Erro ao pesquisar dados na API!")) 
+      console.log("Teste URL: " + URL_BUSCA_CLIENTE + this.state.token +"&cliente=" + this.state.cli_id + "&page=1&query=" + this.state.texto) 
+    }
 
   render() {
     return (
@@ -52,36 +60,29 @@ export default class MenuDrawer extends React.Component {
             value={this.state.texto}
             showLoading
             lightTheme
-            placeholder="Pesquisar pelo veiculo"
+            placeholder="Pesquisar pelo cliente"
             onChangeText={this.pesquisar}
           /> 
 
           {
-            //  OBSERVAÇAO: LOOP DEV SER FEITO NO COMPONENTE DE LISTA 
-            
-            this.state.listaVeiculos.map((veiculo, index) => {
-              
-              // PEGANDO NOME DO PROPRIETARIO RETIRADO DA ULTIMA POSICAO DO ARRAY
-              const proprietario = veiculo.uVei.split(" ").pop();
-              console.log("Proprietario: " + proprietario)
-              
-              // PEGANDO PLACA DO VEICULO 
-              const placa = veiculo.uVei.split(" ", 1)
-              console.log("Placa: " + placa)
-              
-              // CONVERTENDO DADOS PARA LETRAS MINUSCULA
-              const dados = veiculo.uVei.toLowerCase();
-              console.log("MIN: " + dados)
+            this.state.listaClientes.map((cliente) => {
+              const proprietario = cliente.nome.split();
+              const id_cliente_pesquisado = cliente.id;
+              const dados = cliente.nome.toLowerCase();
 
-              if(veiculo.uVei.indexOf(this.state.texto) != -1 || this.state.texto == '' || dados.indexOf(this.state.texto) != -1) { 
-                return <ListaVeiculos item={veiculo.uVei} veiculo={veiculo} proprietario={proprietario} key={index} />         
+              if(cliente.nome.indexOf(this.state.texto) != -1 || this.state.texto == '' || dados.indexOf(this.state.texto) != -1) { 
+                return <ListaVeiculos 
+                          key={cliente.id}
+                          listaClientes={this.state.listaClientes}
+                          proprietario={proprietario} 
+                          id_cliente_pesquisado={id_cliente_pesquisado}
+                          token={this.state.token} 
+                          cli_id={this.state.cli_id} />           
               } else {
-                console.log("Veiculo nao encontrado!")
-                //Alert.alert("Veiculo não encontrado!") 
+                console.log("Cliente nao encontrado!");
               }
             })  
           }
-          
         </SideMenu>
       </View>
     );

@@ -54,10 +54,10 @@ export default class Maps extends React.Component {
 
   render() {
     
-    /* RECEBENDO PARAMETROS DA PAGINA DE LOGIN
-      const usuario = this.props.login; 
-      console.log("MAPS: " + usuario.login);
-    */
+    // RECEBENDO PARAMETROS DO COMPONENTE LISTA DE VEICULO
+    // const proprietario = this.props.navigation.state.params;
+    // console.log("MAPS: " + proprietario);
+    
 
     return (
       <View style={{ flex: 1 }}>
@@ -85,6 +85,13 @@ export default class Maps extends React.Component {
             <MapView
               style={{ flex: 1 }}
               region={this.state.region}
+                //onRegionChange={() => 
+                  //this.state.region
+                  //console.log("Antes: " + region.latitude)
+                  //this.setState({ region : region })
+                  //console.log("Depois LT: " + region.latitude)
+                  //console.log("Depois LG: " + region.longitude)
+                //}
               showsUserLocation={true}
               followsUserLocation={true}
               maximumZ={10}

@@ -24,8 +24,10 @@ export default class Home extends React.Component {
 
     // RECEBENDO PARAMETRO POR NAVEGACAO
     const usuario = this.props.navigation.state.params;
-    console.log("TOKEN HOME: " + usuario.token)
-    console.log("CLI_ID HOME: " + usuario.clienteId)
+    //console.log("TOKEN HOME: " + usuario.token)
+    //console.log("CLI_ID HOME: " + usuario.clienteId)
+    
+    //console.log("LOGIN HOME:" + usuario.login)
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>

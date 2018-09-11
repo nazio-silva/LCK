@@ -34,19 +34,19 @@ export default class FormLogin extends React.Component {
     this.LOGIN = this.LOGIN.bind(this);
     this.manterConectado = this.manterConectado.bind(this);
 
-    //this.saveData();
-    //this.recuperarData();
+    //this.recuperarData(); 
   }
 
   // ARMAZENANDO DADOS NO LOCAL STORAGE
   saveData = async () => {
     try {
       await AsyncStorage.setItem('token', this.state.token);
-      console.log("SAVE DATA: " + this.state.token);
-      console.log("SAVE DATA: " + this.state.login);
-      console.log("SAVE DATA: " + this.state.senha);
+      //console.log("SAVE DATA: " + this.state.token);
+      //console.log("SAVE DATA: " + this.state.login);
+      //console.log("SAVE DATA: " + this.state.senha);
 
       this.props.navigation.navigate("Token", { token: this.state.token });
+
     } catch (error) {
       console.log("Erro ao salvar os dados: " + error);
     }
@@ -56,11 +56,10 @@ export default class FormLogin extends React.Component {
   recuperarData = async () => {
     try {
       const token = await AsyncStorage.getItem('token',this.state.token);
-      //const login = await AsyncStorage.getItem('login', this.state.login); //'senha', this.state.senha
-      //const senha = await AsyncStorage.getItem('senha', this.state.senha);
       if (token !== null) {
         console.log("RECUPERAR DATA: " + token);
-        return this.LOGIN()
+        //return this.LOGIN()
+        //return this.props.navigation.navigate("Home", { token: this.state.token }); INICIANDO APLICAÇAO NA PAGINA HOME
       }
     } catch (error) {
       console.log("Erro ao recuperar dados: " + error);
@@ -77,15 +76,16 @@ export default class FormLogin extends React.Component {
 
       axios.post(URLPOST).then(res => {
         if (res.data.success === true) {
-          console.log("Dados enviados com sucesso!");
+          //console.log("Dados enviados com sucesso!");
           const dados = res.data;
-          console.log(dados);
-          console.log("CLIENTE-ID: " + dados.cli_id);
+          //console.log(dados);
+          //console.log("CLIENTE-ID: " + dados.cli_id);
 
           // SETANDO TOKEN NA VARIAVEL DE ESTADO DO COMPONENTE DE ACORDO COM USUARIO
           this.setState({
             token: dados.token,
             clienteID: dados.cli_id,
+            login: this.state.login 
           });
 
           console.log("ESTADO COM TOKEN: " + this.state.token);
@@ -96,7 +96,8 @@ export default class FormLogin extends React.Component {
               this.props.navigation.navigate("Home", { 
                 token: this.state.token, 
                 clienteId: this.state.clienteID,
-                visibleSpinner: !this.state.visibleSpinner
+                login: this.state.login, 
+                //visibleSpinner: !this.state.visibleSpinner
               }
             ))
             .then(
