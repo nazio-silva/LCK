@@ -55,45 +55,13 @@ export default class ListaVeiculos extends React.Component {
   render() {
     // RECEBENDO A LISTA DE VEICULOS DO COMPONENTE PESQUISA
     const proprietario = this.props.proprietario;
-    const listaClientes = this.props.listaClientes;
+    console.log(proprietario)
 
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <Header
-          leftComponent={
-            <Text style={{ fontSize: 20, color: "#fff" }}> Cliente </Text>
-          }
-          rightComponent={
-            <Text style={{ fontSize: 20, color: "#fff" }}> Veículos </Text>
-          }
-        />
-        <ScrollView>
-          {
-            /* FAZER MAP PRA LISTAR OS PROPRIETARIOS
-              listaClientes.map((cliente) => {
-                console.log(cliente.nome.split())
-              })
-            */
-          }
-          <ListItem
-            style={{
-              backgroundColor: "#fff",
-              marginLeft: 10,
-              flexDirection: "row",
-            }}
-            leftIcon={
-              <TouchableOpacity
-                onPress={this._toggleModal}
-                style={{ flexDirection: "row", backgroundColor: "#fff" }}
-              >
-                <Icon name="user-o" size={20} style={{ color: "black" }} />
-                <Text style={{ marginLeft: 10, color: "black" }}>
-                  {proprietario}
-                </Text>
-              </TouchableOpacity>
-            }
-            rightIcon={
-              <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}> 
+         {
+           /**
+            * <View style={{ flex: 1 }}>
                 <Picker
                   selectedValue={this.state.opcao}
                   onValueChange={this.detalhesUser}
@@ -109,94 +77,12 @@ export default class ListaVeiculos extends React.Component {
                         label={veiculo.uVei}
                         value={veiculo.uVei}
                       />
-                    );
+                    );  
                   })}
                 </Picker>
               </View>
-            }
-          />
-        </ScrollView>
-
-        <Modal isVisible={this.state.isModalVisible}>
-          <View style={{ flex: 1, backgroundColor: "#fff", borderRadius: 10 }}>
-            <Header
-              leftComponent={
-                <Icon
-                  name="arrow-left"
-                  size={30}
-                  color="white"
-                  onPress={this._toggleModal}
-                />
-              }
-              centerComponent={{
-                text: "DETALHES",
-                style: {
-                  color: "#fff",
-                  fontSize: 30,
-                  textAlign: "center",
-                },
-              }}
-            />
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
-              {this.state.listaVeiculos.map(veiculo => {
-                return (
-                  <View
-                    key={veiculo.id_vei}
-                    style={{
-                      flex: 1,
-                      justifyContent: "space-around",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text style={{ color: "black", fontSize: 20 }}>
-                      PROPRIETARIO:
-                    </Text>
-                    <Text
-                      style={{ color: "black", fontSize: 20, marginLeft: 20 }}
-                    >
-                      {proprietario}
-                    </Text>
-                    <Text style={{ color: "black", fontSize: 20 }}>
-                      VEICULO: {veiculo.dsc_tp_Vei}
-                    </Text>
-                    <Text style={{ color: "black", fontSize: 20 }}>
-                      PLACA: {veiculo.uVei}
-                    </Text>
-                    <Text style={{ color: "black", fontSize: 20 }}>
-                      LOCALIZAÇÃO:
-                    </Text>
-                    <Text
-                      style={{ color: "black", fontSize: 20, marginLeft: 10 }}
-                    >
-                      {veiculo.uPonto.split(",", 4)}
-                    </Text>
-                    <Text style={{ color: "black", fontSize: 20 }}>
-                      STATUS: {"Veiculo esta à " + veiculo.uVel + "Km"}
-                    </Text>
-                  </View>
-                );
-              })}
-            </View>
-
-            <Picker
-              selectedValue={this.state.opcao}
-              onValueChange={this.detalhesUser}
-            >
-              <Picker.Item label="Selecione uma opção:" />
-              
-              <Picker.Item label="BLOQUEAR" value="Bloqueio" />
-              <Picker.Item label="ANCORA" value="Ancora" />
-              <Picker.Item label="STATUS" value="Status" />
-              <Picker.Item label="ROTA" value="Rota" />
-            </Picker>
-          </View>
-        </Modal>
+            */
+          }
       </View>
     );
   }

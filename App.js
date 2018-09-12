@@ -1,11 +1,6 @@
-// FUNCAO QUE POSSUI OBJETO PARA CADA ACAO
 import React from "react";
 
 import { createDrawerNavigator } from "react-navigation";
-
-/*
-  INICIO DO REDUX
-*/
 
 import { Provider } from "react-redux";
 import Exit from "./src/components/Exit";

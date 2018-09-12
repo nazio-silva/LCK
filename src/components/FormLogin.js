@@ -71,15 +71,10 @@ export default class FormLogin extends React.Component {
     const URLPOST = URL + this.state.login + "&senha=" + this.state.senha;
     if (this.state.login === "" || this.state.senha === "") {
       Alert.alert("E-mail ou senha Invalido!");
-    } else {  // || this.state.token adicionado
-      //VERIFICAR this.state.checked
-
+    } else { 
       axios.post(URLPOST).then(res => {
         if (res.data.success === true) {
-          //console.log("Dados enviados com sucesso!");
           const dados = res.data;
-          //console.log(dados);
-          //console.log("CLIENTE-ID: " + dados.cli_id);
 
           // SETANDO TOKEN NA VARIAVEL DE ESTADO DO COMPONENTE DE ACORDO COM USUARIO
           this.setState({

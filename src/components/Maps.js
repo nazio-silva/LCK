@@ -57,7 +57,6 @@ export default class Maps extends React.Component {
     // RECEBENDO PARAMETROS DO COMPONENTE LISTA DE VEICULO
     // const proprietario = this.props.navigation.state.params;
     // console.log("MAPS: " + proprietario);
-    
 
     return (
       <View style={{ flex: 1 }}>
