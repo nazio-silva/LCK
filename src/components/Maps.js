@@ -3,6 +3,7 @@ import { View, Alert } from "react-native";
 import { Header } from "react-native-elements";
 import MapView, { Marker } from "react-native-maps";
 import Icon from "react-native-vector-icons/dist/FontAwesome";
+import ListaVeiculos from './ListaVeiculos';
 
 
 const LATITUDE_DELTA = 1;
@@ -53,10 +54,14 @@ export default class Maps extends React.Component {
   }
 
   render() {
-    
-    // RECEBENDO PARAMETROS DO COMPONENTE LISTA DE VEICULO
-    // const proprietario = this.props.navigation.state.params;
-    // console.log("MAPS: " + proprietario);
+
+    const id_Cliente = this.props.navigation.state.params[0]; 
+    const token_Cliente = this.props.navigation.state.params[1]; 
+    console.log("Cliente ID Maps: " + id_Cliente)
+    console.log("Cliente TK Maps: " + token_Cliente)
+
+    const opcao = this.props.navigation.state.params;
+    console.log("OPCAO: " + opcao)
 
     return (
       <View style={{ flex: 1 }}>
@@ -79,7 +84,13 @@ export default class Maps extends React.Component {
             },
           }}
         />
+
+        
+
         <View style={{ flex: 1 }}>
+          
+          <ListaVeiculos id_Cliente={id_Cliente} token={token_Cliente} />
+
           {this.state.region.latitude ? ( 
             <MapView
               style={{ flex: 1 }}
@@ -95,7 +106,7 @@ export default class Maps extends React.Component {
               followsUserLocation={true}
               maximumZ={10}
             >
-
+            
             <Marker
               coordinate={
                 this.state.region

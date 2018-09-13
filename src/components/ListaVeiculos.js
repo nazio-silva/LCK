@@ -23,9 +23,11 @@ export default class ListaVeiculos extends React.Component {
     };
   }
 
+  // VEICULO SELECIONADO 
   detalhesUser = opcao => {
     this.setState({ opcao: opcao });
-    console.log("Veiculo selecionado: " + opcao);
+    this.props.navigation.navigate("Maps", { opcao: this.state.opcao })
+    //console.log("Veiculo selecionado: " + opcao);
   };
 
   _toggleModal = () => {
@@ -35,33 +37,31 @@ export default class ListaVeiculos extends React.Component {
   };
 
   componentWillMount() {
-    const id_cliente_pesquisado = this.props.id_cliente_pesquisado;
+    const id_Cliente = this.props.id_Cliente;
     const token = this.props.token;
 
-    const URL_BUSCA_VEICULO =
-      "http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BUSCA_VEICULOS&token=" +
-        token + "&cliente=" + id_cliente_pesquisado;
-        //console.log(URL_BUSCA_VEICULO);
+    console.log("LV: " + id_Cliente )
+    console.log("LV: " + token )
 
-    axios
-      .get(URL_BUSCA_VEICULO)
-      .then(res => {
-        const veiculos = res.data.dados;
-        this.setState({ listaVeiculos: veiculos });
-      })
-      .catch(err => console.log("Erro ao buscar dados da API: " + err));
+      
+        const URL_BUSCA_VEICULO =
+        "http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BUSCA_VEICULOS&token=" +
+        token + "&cliente=" + id_Cliente;
+        console.log(URL_BUSCA_VEICULO);
+    
+        axios.get(URL_BUSCA_VEICULO)
+          .then(res => {
+            const veiculos = res.data.dados;
+            this.setState({ listaVeiculos: veiculos });
+          })
+          .catch(err => console.log("Erro ao buscar dados da API: " + err));
   }
 
   render() {
-    // RECEBENDO A LISTA DE VEICULOS DO COMPONENTE PESQUISA
-    const proprietario = this.props.proprietario;
-    console.log(proprietario)
-
+  
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff" }}> 
-         {
-           /**
-            * <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}> 
+         <View style={{ flex: 1 }}>
                 <Picker
                   selectedValue={this.state.opcao}
                   onValueChange={this.detalhesUser}
@@ -81,8 +81,6 @@ export default class ListaVeiculos extends React.Component {
                   })}
                 </Picker>
               </View>
-            */
-          }
       </View>
     );
   }

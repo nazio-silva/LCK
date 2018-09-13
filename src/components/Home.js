@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Button } from "react-native";
 import { Header } from "react-native-elements";
 import Icon from "react-native-vector-icons/dist/FontAwesome";  
 
@@ -9,9 +9,11 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      proprietario: '',
+      token: ''
     };
   }
+
   static navigationOptions = {
     header: null,
     drawerIcon: () => (
@@ -20,14 +22,11 @@ export default class Home extends React.Component {
       </View>
     ),
   };
+
   render() {
 
-    // RECEBENDO PARAMETRO POR NAVEGACAO
+    // RECEBENDO PARAMETRO POR NAVEGACAO DO USUARIO LOGADO
     const usuario = this.props.navigation.state.params;
-    //console.log("TOKEN HOME: " + usuario.token)
-    //console.log("CLI_ID HOME: " + usuario.clienteId)
-    
-    //console.log("LOGIN HOME:" + usuario.login)
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -51,7 +50,12 @@ export default class Home extends React.Component {
             }}
           />
 
-          <Pesquisa token={usuario.token} clienteId={usuario.clienteId} />
+          <Pesquisa 
+            nav={this.props.navigation}
+            token={usuario.token} 
+            clienteId={usuario.clienteId} 
+            //proprietario={proprietario} 
+          />
           
       </View>
     );
