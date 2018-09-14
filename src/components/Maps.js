@@ -18,6 +18,7 @@ export default class Maps extends React.Component {
         longitude: 0,
         latitudeDelta: 0,  //null
         longitudeDelta: 0, //null
+        veiculo_selecionado: ''
       },
     };
   }
@@ -56,40 +57,46 @@ export default class Maps extends React.Component {
   render() {
 
     const id_Cliente = this.props.navigation.state.params[0]; 
-    const token_Cliente = this.props.navigation.state.params[1]; 
+    const token_Cliente = this.props.navigation.state.params[1];
+
+    //this.state.veiculo_selecionado.map(v => console.log("teste: " + v))
+
+    const veiculo = this.props.navigation.state.params
+    console.log("OBJETO: " + veiculo)
+
+    //const nav = this.props.navigation
+  
+    //console.log("OBJETO COMPLETO: " + nav.uVei)
+    //console.log("TIPO DE DADO: " + typeof nav)  // Object
+
     console.log("Cliente ID Maps: " + id_Cliente)
     console.log("Cliente TK Maps: " + token_Cliente)
-
-    const opcao = this.props.navigation.state.params;
-    console.log("OPCAO: " + opcao)
 
     return (
       <View style={{ flex: 1 }}>
         <Header
-          leftComponent={
-            <Icon
-              name="bars"
-              size={30}
-              color="white"
-              onPress={() => this.props.navigation.openDrawer()}
-            />
-          }
-          centerComponent={{
-            text: "MAPS",
-            style: {
-              color: "#fff",
-              fontSize: 30,
-              width: "100%",
-              textAlign: "center",
-            },
-          }}
+            leftComponent={
+              <Icon
+                name="bars"
+                size={30}
+                color="white"
+                onPress={() => this.props.navigation.openDrawer()}
+              />
+            }
+            centerComponent={{
+              text: "MAPS",
+              style: {
+                color: "#fff",
+                fontSize: 30,
+                width: "100%",
+                textAlign: "center",
+              },
+            }}
         />
-
-        
 
         <View style={{ flex: 1 }}>
           
-          <ListaVeiculos id_Cliente={id_Cliente} token={token_Cliente} />
+          <ListaVeiculos id_Cliente={id_Cliente} token={token_Cliente} nav={this.props.navigation} />
 
           {this.state.region.latitude ? ( 
             <MapView
@@ -113,12 +120,13 @@ export default class Maps extends React.Component {
                 //latitude: this.state.region.latitude,
                 //longitude: this.state.region.longitude,
               }
-              title="Teste" //{usuario.login}
+              title="Teste" //{veiculo.uVei}
               description="Posição Teste"
             />
 
            </MapView> ) : (
-              Alert.alert("Erro")
+              //Alert.alert("Erro")
+              console.log("Erro ao localizar o veiculo.")
           )}
         </View>
       </View>

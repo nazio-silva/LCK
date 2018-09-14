@@ -30,7 +30,7 @@ export default class MenuDrawer extends React.Component {
     const token = this.props.token;
     const cli_id = this.props.clienteId;
 
-    console.log("PS: " + token)
+    console.log("PESQUISA: " + token)
     
     this.setState({
       token,
@@ -93,6 +93,7 @@ export default class MenuDrawer extends React.Component {
   } 
 
   render() {
+
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <SideMenu style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -130,7 +131,9 @@ export default class MenuDrawer extends React.Component {
                         onPress={() => { 
                           console.log( "CLIENTE: " + cliente.nome ), 
                           console.log( "CLIENTE TK: " + this.state.token ), 
-                          this.props.nav.navigate("Maps", [cliente.id, this.state.token] ) 
+                          
+                          this.props.nav.navigate("Maps", [cliente.id, this.state.token]) 
+
                         }}
                       >
                         <Icon

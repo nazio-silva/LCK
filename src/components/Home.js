@@ -9,8 +9,8 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      proprietario: '',
-      token: ''
+      //proprietario: '',
+      //token: ''
     };
   }
 
@@ -54,7 +54,6 @@ export default class Home extends React.Component {
             nav={this.props.navigation}
             token={usuario.token} 
             clienteId={usuario.clienteId} 
-            //proprietario={proprietario} 
           />
           
       </View>
