@@ -73,6 +73,7 @@ export default class FormLogin extends React.Component {
       Alert.alert("E-mail ou senha Invalido!");
     } else { 
       axios.post(URLPOST).then(res => {
+       
         if (res.data.success === true) {
           const dados = res.data;
 
@@ -80,25 +81,44 @@ export default class FormLogin extends React.Component {
           this.setState({
             token: dados.token,
             clienteID: dados.cli_id,
-            login: this.state.login 
+            login: this.state.login,
+            visibleSpinner: this.state.visibleSpinner
           });
 
           console.log("ESTADO COM TOKEN: " + this.state.token);
 
+          /*
+
+          setInterval(() => {
+            this.setState({
+              visibleSpinner: !this.state.visibleSpinner
+            })
+          }, 1000)
+
+          this.props.navigation.navigate("Home", { 
+                token: this.state.token, 
+                clienteId: this.state.clienteID,
+                login: this.state.login, 
+                visibleSpinner: !this.state.visibleSpinner,
+              }
+            )
+          */
+          
+
           // PASSANDO PARAMETRO LOGIN PARA PAGINA HOME
           this.saveData()
-            .then(() => 
+            .then(() => {
               this.props.navigation.navigate("Home", { 
                 token: this.state.token, 
                 clienteId: this.state.clienteID,
                 login: this.state.login, 
                 //visibleSpinner: !this.state.visibleSpinner
-              }
-            ))
-            .then(
-              setInterval(() => {}, 2000))
+              })
+            })           
         }
-      });
+        return
+      }
+      );
     }
   }
 
@@ -167,7 +187,11 @@ export default class FormLogin extends React.Component {
             /> 
           </View>  
 
-          <Spinner visible={this.state.visibleSpinner} textContent={"Carregando..."} textStyle={{color: 'red'}} />       
+          <Spinner 
+            visible={this.state.visibleSpinner}
+            textContent={"Carregando..."} 
+            textStyle={{color: 'red'}} 
+          />       
 
           <View style={{ height: 40, width: 200, marginLeft: 20 }}>
             <Button

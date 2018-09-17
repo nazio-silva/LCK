@@ -113,7 +113,6 @@ export default class MenuDrawer extends React.Component {
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <SearchBar
           value={this.state.texto}
-          //showLoading
           lightTheme
           placeholder="Pesquisar pelo cliente"
           onChangeText={this.pesquisar}
@@ -132,7 +131,6 @@ export default class MenuDrawer extends React.Component {
               return (
                 <View key={cliente.id}>
                   <ListItem
-                    //key={cliente.id}
                     style={{
                       backgroundColor: "#fff",
                       marginLeft: 10,
@@ -147,7 +145,7 @@ export default class MenuDrawer extends React.Component {
                         onPress={() => {
                           //console.log( "CLIENTE: " + cliente.nome ),
                           //console.log( "CLIENTE TK: " + this.state.token ),
-                          this.props.nav.navigate("Maps", [
+                          this.props.nav.navigate("ListaVeiculos", [
                             cliente.id,
                             this.state.token,
                           ]);

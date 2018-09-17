@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 // IMPORTAÇÃO DE TODOS OS COMPONENTES DE NAVEGAÇÃO
 import FormLogin from "./src/components/FormLogin";
 import Home from "./src/components/Home";
+import ListaVeiculos from './src/components/ListaVeiculos';
+
 import Maps from "./src/components/Maps";
 import Profile from "./src/components/Profile";
 import Settings from "./src/components/Settings";
@@ -25,7 +27,7 @@ const AppRoutes = createStackNavigator(
   { 
     FormLogin: FormLogin,
     Home: Home,
-    Maps: Maps 
+    ListaVeiculos: ListaVeiculos 
   },
   {
     initialRouteName: 'FormLogin'

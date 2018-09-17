@@ -8,10 +8,6 @@ import Pesquisa from "./Pesquisa";
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      //proprietario: '',
-      //token: ''
-    };
   }
 
   static navigationOptions = {
@@ -31,20 +27,11 @@ export default class Home extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
           <Header
-            leftComponent={
-              <Icon
-                name="bars"
-                size={30}
-                color="white"
-                onPress={() => this.props.navigation.openDrawer()}
-              />
-            }
             centerComponent={{
               text: "LOCKTEC",
               style: {
                 color: "#fff",
                 fontSize: 30,
-                width: "100%",
                 textAlign: "center",
               },
             }}
