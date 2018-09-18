@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import React from "react";
-import { View, ScrollView, Text, TouchableOpacity  } from "react-native";
+import { View, ScrollView, Text, Picker  } from "react-native";
 
 import { ListItem } from "react-native-elements";
 import Icon from "react-native-vector-icons/dist/FontAwesome";
@@ -10,15 +10,14 @@ export default class ListaVeiculos extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isModalVisible: false,
       veiculo: "",
       listaVeiculos: [],
-      nav: null
+      checked: false,
+      nav: null,
     };
   }
 
   static navigationOptions = {
-    //header: null,
     title: 'LISTA DE VEICULOS'
   };
 
@@ -30,16 +29,6 @@ export default class ListaVeiculos extends React.Component {
     this.setState({ 
       veiculo: veiculo,
     })
-
-    //console.log("Veiculo Selecionado: " + this.state.veiculo) 
-    //this.props.nav.navigate("ListaVeiculos", this.state.veiculo)
-    //console.log("Veiculo Selecionado: " + this.state.veiculo) 
-  };
-
-  _toggleModal = () => {
-    return this.setState({
-      isModalVisible: !this.state.isModalVisible,
-    });
   };
 
   componentWillMount() {
@@ -66,8 +55,8 @@ export default class ListaVeiculos extends React.Component {
 
     // RECEBENDO OBJ VEICULO DO COMPONENTE LISTAVEICULOS
     const veiculo = this.props.navigation.state.params
-      console.log("OBJETO LV PLACA: " + veiculo.uVei)
-      console.log("OBJETO LV DESC: " + veiculo.dsc_tp_Vei)
+      //console.log("OBJETO LV PLACA: " + veiculo.uVei)
+      //console.log("OBJETO LV DESC: " + veiculo.dsc_tp_Vei)
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -76,31 +65,52 @@ export default class ListaVeiculos extends React.Component {
           {
             this.state.listaVeiculos.map(veiculo => {
               return (
-                <View key={veiculo.id_vei}>
-                <ListItem
-                    style={{
-                      backgroundColor: "#fff",
-                      marginLeft: 10,
-                      flexDirection: "row",
-                    }}
-                    leftIcon={
-                      <TouchableOpacity
-                        style={{
-                          flexDirection: "row",
-                          backgroundColor: "#fff",
-                        }}
-                      >
-                        <Icon
-                          name="car"
-                          size={20}
-                          style={{ color: "black" }}
-                        />
-                        <Text style={{ marginLeft: 10, color: "black" }}>
-                          {veiculo.uVei + " " + veiculo.dsc_tp_Vei}
-                        </Text>
-                      </TouchableOpacity>
-                    }
-                  />
+                <View key={veiculo.id_vei} style={{ flex: 1 }}>
+                  <ListItem
+                      style={{
+                        backgroundColor: "#fff",
+                        marginLeft: 10,
+                        flexDirection: "row",
+                      }}
+                      leftIcon={
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            backgroundColor: "#fff",
+                          }}
+                        >
+                          <Icon
+                            name="car"
+                            size={20}
+                            style={{ color: "black" }}
+                          />
+                          <Text style={{ marginLeft: 10, color: "black" }}>
+                            {veiculo.uVei + " - " + veiculo.dsc_tp_Vei}
+                          </Text>
+                        </View>
+                      }
+                      rightIcon={
+                        <Picker 
+                          key={veiculo.id_vei}
+                          //selectedValue={this.state.opcao}
+                          style={{ height: 50, width: 150 }}
+                          onValueChange={
+                            (opcao) => {
+                              console.log("Veiculo: " + veiculo.uVei + " " + " Opção: " + opcao)
+                              return this.setState({
+                                opcao: opcao
+                              })
+                            }
+                          }
+                        >
+                          <Picker.Item label="Ações" />
+                          <Picker.Item label="ATIVAR ANCORA" value="Ancora" /> 
+                          <Picker.Item label="BLOQUEAR" value="Bloqueio" />
+                          <Picker.Item label="ROTAS" value="Rota" />
+                          <Picker.Item label="COMO CHEGAR" value="Como chegar" />
+                        </Picker>
+                      }
+                    />
                 </View>
               );  
             })
@@ -114,13 +124,9 @@ export default class ListaVeiculos extends React.Component {
 /**
  * EXIBIR UMA LISTA DE VEICULOS 
  * SELECIONAR UM VEICULO DO USUARIO PESQUISADO
- * EXIBIR O VEICULO NO MAPA
- * REALIZAR FUNCOES SOBRE O VEICULO - BOQUEAR - ANCORA - ROTA 
- * CRIAR PICKER PARA MANIPULAR ACOES DO VEICULO CORRESPONDENTE
- * 
- * <Picker.Item
-                  key={veiculo.id_vei}
-                  label={veiculo.dsc_tp_Vei + " " + veiculo.uVei}
-                  value={veiculo}
-                />
+ * CRIAR PICKER PARA MANIPULAR ACOES DO VEICULO CORRESPONDENTE - ok
+ * REALIZAR FUNCOES SOBRE O VEICULO - BOQUEAR - ANCORA - ROTA - ok 
+ * OBS : CORRIGIR OPCAO SELECIONADA - 18-09-18
  */
+
+ 

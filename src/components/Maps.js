@@ -1,8 +1,6 @@
 import React from "react";
 import { View, Alert } from "react-native";
-import { Header } from "react-native-elements";
 import MapView, { Marker } from "react-native-maps";
-import Icon from "react-native-vector-icons/dist/FontAwesome";
 import ListaVeiculos from './ListaVeiculos';
 
 
