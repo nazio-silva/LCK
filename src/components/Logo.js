@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   view: {
     marginTop: 40,
     height: 150,
-    marginBottom: 90
+    marginBottom: 100
   },
   logo: {
     justifyContent: "center",

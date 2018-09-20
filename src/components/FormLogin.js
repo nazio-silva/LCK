@@ -1,10 +1,9 @@
 import axios from "axios";
 
 import React from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Button, Alert, AsyncStorage } from "react-native";
-import Spinner from 'react-native-loading-spinner-overlay';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, AsyncStorage } from "react-native";
 
-import { Header, CheckBox } from "react-native-elements";
+import { Header, CheckBox, Button } from "react-native-elements";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/dist/FontAwesome";
 import Cadastro from "./Cadastro";
@@ -27,9 +26,6 @@ export default class FormLogin extends React.Component {
       clienteID: "",
       checked: false,
       isModalVisible: false,
-
-      visibleSpinner: false,
-
     };
     this.LOGIN = this.LOGIN.bind(this);
     this.manterConectado = this.manterConectado.bind(this);
@@ -41,10 +37,6 @@ export default class FormLogin extends React.Component {
   saveData = async () => {
     try {
       await AsyncStorage.setItem('token', this.state.token);
-      //console.log("SAVE DATA: " + this.state.token);
-      //console.log("SAVE DATA: " + this.state.login);
-      //console.log("SAVE DATA: " + this.state.senha);
-
       this.props.navigation.navigate("Token", { token: this.state.token });
 
     } catch (error) {
@@ -58,8 +50,6 @@ export default class FormLogin extends React.Component {
       const token = await AsyncStorage.getItem('token',this.state.token);
       if (token !== null) {
         console.log("RECUPERAR DATA: " + token);
-        //return this.LOGIN()
-        //return this.props.navigation.navigate("Home", { token: this.state.token }); INICIANDO APLICAÇAO NA PAGINA HOME
       }
     } catch (error) {
       console.log("Erro ao recuperar dados: " + error);
@@ -87,24 +77,6 @@ export default class FormLogin extends React.Component {
 
           console.log("ESTADO COM TOKEN: " + this.state.token);
 
-          /*
-
-          setInterval(() => {
-            this.setState({
-              visibleSpinner: !this.state.visibleSpinner
-            })
-          }, 1000)
-
-          this.props.navigation.navigate("Home", { 
-                token: this.state.token, 
-                clienteId: this.state.clienteID,
-                login: this.state.login, 
-                visibleSpinner: !this.state.visibleSpinner,
-              }
-            )
-          */
-          
-
           // PASSANDO PARAMETRO LOGIN PARA PAGINA HOME
           this.saveData()
             .then(() => {
@@ -112,11 +84,9 @@ export default class FormLogin extends React.Component {
                 token: this.state.token, 
                 clienteId: this.state.clienteID,
                 login: this.state.login, 
-                //visibleSpinner: !this.state.visibleSpinner
               })
             })           
         }
-        return
       }
       );
     }
@@ -144,7 +114,7 @@ export default class FormLogin extends React.Component {
       <View style={styles.view}>
         <Logo />
         <View style={styles.form}>
-          <View style={{ flexDirection: "row", marginBottom: 20, marginRight: 10 }}>
+          <View style={{ flexDirection: "row", marginBottom: 10, marginRight: 20 }}>
             <Icon name="user" size={30} style={{ color: "#4682B4" }} />
             <TextInput
               style={{
@@ -156,12 +126,13 @@ export default class FormLogin extends React.Component {
                 borderRadius: 10,
                 textAlign: "center",
               }}
-              placeholder="Digite seu e-mail"
+              underlineColorAndroid='transparent'
+              placeholder="E-mail"
               onChangeText={login => this.setState({ login })}
             />
           </View>
 
-          <View style={{ flexDirection: "row", marginRight: 10 }}>
+          <View style={{ flexDirection: "row", marginRight: 20 }}>
             <Icon name="lock" size={40} style={{ color: "#4682B4" }} />
             <TextInput
               style={{
@@ -173,43 +144,41 @@ export default class FormLogin extends React.Component {
                 borderRadius: 10,
                 textAlign: "center",
               }}
+              underlineColorAndroid='transparent'
               secureTextEntry={true}
-              placeholder="Digite sua senha"
+              placeholder="Senha"
               onChangeText={senha => this.setState({ senha })}
             />
+          </View>        
+
+          <View style={ styles.button }>
+            <Button
+              borderRadius= {10}
+              backgroundColor="#2089dc"
+              title="ENTRAR" 
+              onPress={this.LOGIN} />
           </View>
-          
+
           <View style={{ marginLeft: 30, margin: 10 }}>
             <CheckBox
-              title="Manter-se Conectado"
+              containerStyle={{ backgroundColor: '#EEE9E9'}}
+              title="MANTER-SE CONECTADO"
               checked={this.state.checked}
               onPress={this.manterConectado}
             /> 
-          </View>  
-
-          <Spinner 
-            visible={this.state.visibleSpinner}
-            textContent={"Carregando..."} 
-            textStyle={{color: 'red'}} 
-          />       
-
-          <View style={{ height: 40, width: 200, marginLeft: 20 }}>
-            <Button
-              title="ENTRAR" 
-              onPress={this.LOGIN} />
           </View>
 
           <View style={{ marginLeft: 30}}>
             <TouchableOpacity onPress={this._toggleModal}>
               <Text style={{ color: "red", fontSize: 20 }}>
-                Esqueceu a senha?
+                ESQUECEU A SENHA?
               </Text>
             </TouchableOpacity>
           </View>
         </View>
 
         <Modal isVisible={this.state.isModalVisible}>
-          <View style={{ flex: 1, backgroundColor: "#fff", borderRadius: 10 }}>
+          <View style={ styles.modal }>
             <Header
               leftComponent={
                 <Icon
@@ -240,7 +209,7 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   form: {
     flex: 1, 
@@ -249,5 +218,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 40
   },
+  button: {
+    //borderRadius: 20,
+    //backgroundColor: "red",
+    height: 40, 
+    width: 200, 
+    marginLeft: 20, 
+    marginTop: 20
+  },
+  modal: {
+    flex: 1, 
+    backgroundColor: "#fff", 
+    borderRadius: 10
+  }
 });
 

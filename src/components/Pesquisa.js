@@ -28,8 +28,6 @@ export default class MenuDrawer extends React.Component {
     const token = this.props.token;
     const cli_id = this.props.clienteId;
 
-    console.log("PESQUISA: " + token);
-
     this.setState({
       token,
       cli_id,
@@ -113,13 +111,17 @@ export default class MenuDrawer extends React.Component {
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <SearchBar
           value={this.state.texto}
-          lightTheme
-          placeholder="Pesquisar pelo cliente"
+          showLoading={true}
+          containerStyle={{ backgroundColor: '#fff' }}
+          inputStyle={{backgroundColor: '#fff'}}
+          placeholderTextColor="black"
+          placeholder="Pesquisar por um cliente"
           onChangeText={this.pesquisar}
         />
+
         <ScrollView>
           {this.state.listaClientes.map(cliente => {
-            //console.log("Cliente: " + cliente.nome.split())
+
             const proprietario = cliente.nome.split();
             const dados = cliente.nome.toLowerCase();
 
@@ -143,8 +145,6 @@ export default class MenuDrawer extends React.Component {
                           backgroundColor: "#fff",
                         }}
                         onPress={() => {
-                          //console.log( "CLIENTE: " + cliente.nome ),
-                          //console.log( "CLIENTE TK: " + this.state.token ),
                           this.props.nav.navigate("ListaVeiculos", [
                             cliente.id,
                             this.state.token,
