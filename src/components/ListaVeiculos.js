@@ -33,7 +33,7 @@ export default class ListaVeiculos extends React.Component {
     });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const id_Cliente = this.props.navigation.state.params[0];
     const token_Cliente = this.props.navigation.state.params[1];
     console.log("Cliente ID LV: " + id_Cliente);
@@ -65,7 +65,7 @@ export default class ListaVeiculos extends React.Component {
             return (
               <View key={veiculo.id_vei} style={{ flex: 1 }}>
                 <ListItem
-                  key={veiculo.id_vei}
+                  //key={veiculo.id_vei}
                   style={{
                     backgroundColor: "#fff",
                     marginLeft: 10,
@@ -90,13 +90,13 @@ export default class ListaVeiculos extends React.Component {
                       borderColor='#EEE9E9'
                       borderStyle='solid'
                       borderWidth={2}
-                      borderRightColor='#EEE9E9'
+                      //borderRightColor='#EEE9E9'
                       borderRadius={10}
                     >
                       <Picker
-                        key={veiculo.id_vei}
-                        //selectedValue={veiculo.uTipoComando}
-                        onValueChange={opcao => {
+                        //key={veiculo.id_vei}
+                        selectedValue={veiculo.uTipoComando}
+                        onValueChange={(opcao, index) => {
                           console.log(
                             "Veiculo: " + veiculo.uVei + " " + " Opção: " + opcao
                           );
@@ -105,7 +105,7 @@ export default class ListaVeiculos extends React.Component {
                             bloqueio: veiculo.uTipoComando, // STATUS DA API - DESBLOQUEIO ou BLOQUEIO
                           }),
                             console.log("Status da API: " + veiculo.uTipoComando);
-                        }}
+                        }}  
                       >
                         <Picker.Item label="AÇÕES" value={null} color='red' />
                         <Picker.Item label="BLOQUEAR" value="Veiculo Bloqueado" />

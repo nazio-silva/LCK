@@ -24,7 +24,7 @@ export default class MenuDrawer extends React.Component {
     this.pesquisar = this.pesquisar.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const token = this.props.token;
     const cli_id = this.props.clienteId;
 
@@ -93,7 +93,8 @@ export default class MenuDrawer extends React.Component {
         console.log("Erro ao pesquisar dados na API!");
       });
 
-    console.log(
+    {
+      /*console.log(
       "Teste URL: " +
         URL_BUSCA_CLIENTE +
         this.state.token +
@@ -103,18 +104,26 @@ export default class MenuDrawer extends React.Component {
         this.state.page +
         "&query=" +
         this.state.texto
-    );
+      );*/
+    }
   }
 
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <SearchBar
+          round={true}
           value={this.state.texto}
           showLoading={true}
           containerStyle={{ backgroundColor: '#fff' }}
-          inputStyle={{backgroundColor: '#fff'}}
-          placeholderTextColor="black"
+          inputStyle={{ 
+            backgroundColor: '#fff', 
+            textAlign: 'center', 
+            borderColor: 'black', 
+            borderStyle: 'solid', 
+            borderWidth: 1 
+          }}
+          placeholderTextColor="#708090"
           placeholder="Pesquisar por um cliente"
           onChangeText={this.pesquisar}
         />
