@@ -107,7 +107,7 @@ export default class ListaVeiculos extends React.Component {
                             console.log("Status da API: " + veiculo.uTipoComando);
                         }}  
                       >
-                        <Picker.Item label="AÇÕES" value={null} color='red' />
+                        <Picker.Item label="AÇÕES" value={null} color='black' />
                         <Picker.Item label="BLOQUEAR" value="Veiculo Bloqueado" />
                       </Picker>
                     </View>
