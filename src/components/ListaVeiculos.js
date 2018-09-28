@@ -32,14 +32,13 @@ export default class ListaVeiculos extends React.Component {
       loading: false,
     };
     this.seleciona_opcao = this.seleciona_opcao.bind(this);
-    //this.seleciona_opcao()
   }
 
   static navigationOptions = {
     title: "LISTA DE VEICULOS",
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // ID e TOKEN DO USUARIO LOGADO
     const id_Cliente = this.props.navigation.state.params[0]; 
     const token_Cliente = this.props.navigation.state.params[1];
@@ -62,13 +61,7 @@ export default class ListaVeiculos extends React.Component {
   seleciona_opcao() {
     // TOKEN DO USUARIO LOGADO
     const token_Cliente = this.props.navigation.state.params[1]; 
-
-    /*
-      console.log("Cliente TK: " + token_Cliente )
-      console.log("Cliente uMOD: " + this.state.uMod )
-      console.log("Cliente Id Veic: " + this.state.id_veiculo )
-    */
-
+    
     const URL_BLOQUEARVEI_SMS = "http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=BLOQUEARVEI_SMS&uMod="+this.state.uMod+"&id_veiculo="+this.state.id_veiculo+"&token="+token_Cliente
     
     if(!this.state.opcao) {
@@ -77,25 +70,25 @@ export default class ListaVeiculos extends React.Component {
         console.log("VEICULO: " + this.state.placa + " BLOQUEIO ")
         console.log("Status da API: " + this.state.uTipoComando),
         console.log("BLOQUEAR: " + URL_BLOQUEARVEI_SMS)
-        Alert.alert("Veiculo: " + this.state.placa + '\n' + "STATUS: " + this.state.uTipoComando)
+        axios.post(URL_BLOQUEARVEI_SMS)
+            .then(() => {
+              Alert.alert("Veiculo: " + this.state.placa + '\n' + "STATUS: " + this.state.uTipoComando)
+            })
       } else {
         const URL_DESBLOQUEARVEI_SMS = "http://wsapp.locktec.com.br/apiLCK_dev/services/services.php?action=DESBLOQUEARVEI_SMS&uMod="+this.state.uMod+"&id_veiculo="+this.state.id_veiculo+"&token="+token_Cliente
         console.log("VEICULO: " + this.state.placa + " DESBLOQUEADO ")
         console.log("Status da API: " + this.state.uTipoComando),
         console.log("DESBLOQUEAR: " + URL_DESBLOQUEARVEI_SMS)
+        axios.post(URL_DESBLOQUEARVEI_SMS)
+            .then(() => {
+              Alert.alert("Veiculo: " + this.state.placa + '\n' + "STATUS: " + this.state.uTipoComando)
+            })
         Alert.alert("VEICULO: " + this.state.placa + '\n' + "STATUS: " + this.state.uTipoComando)
       } 
+      return this.state.opcao
   }
 
   render() {
-
-    /*
-      console.log("PLACA: " + this.state.placa)
-      console.log("uMOD: " + this.state.uMod)
-      console.log("ID VEICULO: " + this.state.id_veiculo)
-      console.log("OPCAO SELECIONADA: " + this.state.opcao)  
-      console.log("STATUS DA API: " + this.state.uTipoComando)
-    */
     
     this.seleciona_opcao();
 
@@ -103,12 +96,14 @@ export default class ListaVeiculos extends React.Component {
       <View style={styles.viewListaVeiculos}>
         <ScrollView>
           {
-            this.state.listaVeiculos.map((veiculo, itemKey) => {
+            this.state.listaVeiculos.map((veiculo, indice) => {
               return (
-                <View key={itemKey} style={{ flex: 1 }}>
+                <View 
+                  key={indice} 
+                  style={{ flex: 1 }}
+                >
                   <ListItem 
                     style={styles.listItem}
-                    key={veiculo.id_vei}
                     leftIcon={
                         <View style={styles.leftIcon}> 
                             <Icon 
@@ -123,7 +118,6 @@ export default class ListaVeiculos extends React.Component {
                     }
                     rightIcon={
                       <View
-                        key={veiculo.uVei}
                         style={styles.rightIcon}
                         borderColor='#EEE9E9'
                         borderStyle='solid'
@@ -131,11 +125,8 @@ export default class ListaVeiculos extends React.Component {
                         borderRadius={10}
                       >
                         <Picker
-                          key={veiculo.uVei}
-                          Style={{ color: 'red'}}
-                          selectedValue={this.state.uTipoComando} 
+                          selectedValue={veiculo.id_vei} 
                           onValueChange={(opcao) => {
-                            //this.seleciona_opcao();
                             this.setState({
                               placa: veiculo.uVei,
                               uMod: veiculo.uMod,
@@ -143,21 +134,17 @@ export default class ListaVeiculos extends React.Component {
                               opcao: opcao,
                               uTipoComando: opcao
                             })
-                            //this.seleciona_opcao();
-                          }}  
+                          }}
                         >
                           <Picker.Item
-                            key={veiculo.uVei}
-                            label="AÇÕES" 
+                            label="AÇÕES"     
                             value={null} 
                           />
                           <Picker.Item 
-                            key={veiculo.uVei} 
                             label="BLOQUEAR" 
                             value="BLOQUEIO" 
                           />
                           <Picker.Item 
-                            key={veiculo.uVei}
                             label="DESBLOQUEAR" 
                             value="DESBLOQUEIO" 
                           />
