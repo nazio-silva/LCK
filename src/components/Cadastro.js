@@ -21,7 +21,11 @@ export default class FormLogin extends React.Component {
       <View style={styles.view}>
         <View style={styles.form}>
           <View style={{ flexDirection: "row" }}>
-            <Icon name="user" size={30} style={{ color: "#4682B4" }} />
+            <Icon 
+              name="user" 
+              size={30} 
+              style={{ color: "#4682B4" }} 
+            />
             <TextInput
               style={{
                 marginLeft: 10,
@@ -33,13 +37,19 @@ export default class FormLogin extends React.Component {
                 textAlign: "center",
               }}
               placeholder="Digite seu e-mail"
-              required
-              onChangeText={email => this.setState({ email })}
+              required={true}
+              onChangeText={
+                email => this.setState({ email })
+              }
             />
           </View>
 
           <View style={{ flexDirection: "row" }}>
-            <Icon name="lock" size={40} style={{ color: "#4682B4" }} />
+            <Icon 
+              name="lock" 
+              size={40} 
+              style={{ color: "#4682B4" }} 
+            />
             <TextInput
               style={{
                 marginLeft: 10,
@@ -52,13 +62,19 @@ export default class FormLogin extends React.Component {
               }}
               secureTextEntry={true}
               placeholder="Digite sua nova senha"
-              required
-              onChangeText={password => this.setState({ password })}
+              required={true}
+              onChangeText={
+                password => this.setState({ password })
+              }
             />
           </View>
 
           <View style={{ flexDirection: "row" }}>
-            <Icon name="lock" size={40} style={{ color: "#4682B4" }} />
+            <Icon 
+              name="lock" 
+              size={40} 
+              style={{ color: "#4682B4" }} 
+            />
             <TextInput
               style={{
                 marginLeft: 10,
@@ -71,13 +87,20 @@ export default class FormLogin extends React.Component {
               }}
               secureTextEntry={true}
               placeholder="Repetir sua nova senha"
-              required
-              onChangeText={password => this.setState({ password })}
+              required={true}
+              onChangeText={
+                password => this.setState({ password })
+              }
             />
           </View>
 
           <View>
-            <Button title="SALVAR" onPress={() => Alert.alert("Cadastro realizado com sucesso!")} />
+            <Button 
+              title="SALVAR" 
+              onPress={
+                () => Alert.alert("Cadastro realizado com sucesso!")
+              } 
+            />
           </View>
         </View>
       </View>

@@ -1,9 +1,15 @@
 import axios from "axios";
 import React from "react";
 
-import { View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { SearchBar } from "react-native-elements";
-import { ListItem } from "react-native-elements";
+import { 
+  View, 
+  StyleSheet, 
+  ScrollView, 
+  Text, 
+  TouchableOpacity 
+} from "react-native";
+
+import { SearchBar, ListItem } from "react-native-elements";
 import Icon from "react-native-vector-icons/dist/FontAwesome";
 
 const URL_BUSCA_CLIENTE =
@@ -34,14 +40,8 @@ export default class MenuDrawer extends React.Component {
     });
 
     const BUSCA_CLIENTE =
-      URL_BUSCA_CLIENTE +
-      token +
-      "&cliente=" +
-      cli_id +
-      "&page=" +
-      this.state.page +
-      "&query=" +
-      this.state.texto;
+      URL_BUSCA_CLIENTE + token + "&cliente=" + cli_id + 
+      "&page=" + this.state.page + "&query=" + this.state.texto;
 
     axios
       .get(BUSCA_CLIENTE)
@@ -63,28 +63,26 @@ export default class MenuDrawer extends React.Component {
     axios
       .get(
         URL_BUSCA_CLIENTE +
-          this.state.token +
-          "&cliente=" +
-          this.state.cli_id +
-          "&page=" +
-          this.state.page +
-          "&query=" +
+          this.state.token + "&cliente=" +
+          this.state.cli_id + "&page=" +
+          this.state.page + "&query=" +
           this.state.texto
       )
       .then(() => {
         const BUSCA_CLIENTE =
           URL_BUSCA_CLIENTE +
-          this.state.token +
-          "&cliente=" +
-          this.state.cli_id +
-          "&page=" +
-          this.state.page +
-          "&query=" +
+          this.state.token + "&cliente=" +
+          this.state.cli_id + "&page=" +
+          this.state.page + "&query=" +
           this.state.texto;
+
         this.state.requesting = false;
+
         axios.get(BUSCA_CLIENTE).then(res => {
           const clientes = res.data.dados;
-          this.setState({ listaClientes: clientes });
+          this.setState({ 
+            listaClientes: clientes 
+          });
         });
         console.log("Encontrado");
       })
@@ -92,93 +90,96 @@ export default class MenuDrawer extends React.Component {
         this.state.requesting = false;
         console.log("Erro ao pesquisar dados na API!");
       });
-
-    {
-      /*console.log(
-      "Teste URL: " +
-        URL_BUSCA_CLIENTE +
-        this.state.token +
-        "&cliente=" +
-        this.state.cli_id +
-        "&page=" +
-        this.state.page +
-        "&query=" +
-        this.state.texto
-      );*/
-    }
   }
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View style={styles.viewPesquisa}>
         <SearchBar
           round={true}
           value={this.state.texto}
           showLoading={true}
           containerStyle={{ backgroundColor: '#fff' }}
-          inputStyle={{ 
-            backgroundColor: '#fff', 
-            textAlign: 'center', 
-            borderColor: 'black', 
-            borderStyle: 'solid', 
-            borderWidth: 1 
-          }}
+          inputStyle={styles.searchInput}
           placeholderTextColor="#708090"
           placeholder="Pesquisar por um cliente"
           onChangeText={this.pesquisar}
         />
 
         <ScrollView>
-          {this.state.listaClientes.map(cliente => {
+          {
+            this.state.listaClientes.map(cliente => {
+              const proprietario = cliente.nome.split();
+              const dados = cliente.nome.toLowerCase();
 
-            const proprietario = cliente.nome.split();
-            const dados = cliente.nome.toLowerCase();
-
-            if (
-              cliente.nome.indexOf(this.state.texto) != -1 ||
-              this.state.texto == "" ||
-              dados.indexOf(this.state.texto) != -1
-            ) {
-              return (
-                <View key={cliente.id}>
-                  <ListItem
-                    style={{
-                      backgroundColor: "#fff",
-                      marginLeft: 10,
-                      flexDirection: "row",
-                    }}
-                    leftIcon={
-                      <TouchableOpacity
-                        style={{
-                          flexDirection: "row",
-                          backgroundColor: "#fff",
-                        }}
-                        onPress={() => {
-                          this.props.nav.navigate("ListaVeiculos", [
-                            cliente.id,
-                            this.state.token,
-                          ]);
-                        }}
-                      >
-                        <Icon
-                          name="user-o"
-                          size={20}
-                          style={{ color: "black" }}
-                        />
-                        <Text style={{ marginLeft: 10, color: "black" }}>
-                          {proprietario}
-                        </Text>
-                      </TouchableOpacity>
-                    }
-                  />
-                </View>
-              );
-            } else {
-              console.log("Cliente nao encontrado!");
-            }
-          })}
+              if (
+                cliente.nome.indexOf(this.state.texto) != -1 ||
+                this.state.texto == "" ||
+                dados.indexOf(this.state.texto) != -1
+              ) {
+                return (
+                  <View key={cliente.id}>
+                    <ListItem style={styles.listItem}
+                      leftIcon={
+                        <TouchableOpacity
+                          style={styles.leftIcon}
+                          onPress={
+                            () => {
+                              this.props.nav.navigate("ListaVeiculos", [
+                                cliente.id,
+                                this.state.token,
+                              ]);
+                            }
+                          }
+                        >
+                          <Icon
+                            name="user-o"
+                            size={20}
+                            style={{ color: "black" }}
+                          />
+                          <Text style={styles.proprietario}>
+                            {proprietario}
+                          </Text>
+                        </TouchableOpacity>
+                      }
+                    />
+                  </View>
+                );
+              } else {
+                console.log("Cliente nao encontrado!");
+              }
+            })
+          }
         </ScrollView>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  viewPesquisa: {
+    flex: 1, 
+    backgroundColor: "#fff"
+  },
+  searchInput: {
+    backgroundColor: '#fff', 
+    textAlign: 'center', 
+    borderColor: 'black', 
+    borderStyle: 'solid', 
+    borderWidth: 1
+  },
+  listItem: {
+    backgroundColor: "#fff",
+    marginLeft: 10,
+    flexDirection: "row",
+  },
+  leftIcon: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+  },
+  proprietario: {
+    marginLeft: 10, 
+    color: "black"
+  },
+})
+

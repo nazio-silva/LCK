@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Header } from "react-native-elements";
 import Icon from "react-native-vector-icons/dist/FontAwesome";  
 
@@ -12,11 +12,6 @@ export default class Home extends React.Component {
 
   static navigationOptions = {
     header: null,
-    drawerIcon: () => (
-      <View>
-        <Icon name="home" size={20} color={"black"} />
-      </View>
-    ),
   };
 
   render() {
@@ -25,7 +20,7 @@ export default class Home extends React.Component {
     const usuario = this.props.navigation.state.params;
 
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View style={styles.viewHome}>
           <Header
             centerComponent={{
               text: "LOCKTEC",
@@ -33,13 +28,13 @@ export default class Home extends React.Component {
                 color: "#fff",
                 fontSize: 30,
                 textAlign: "center",
-              },
+              }
             }}
           />
 
           <Pesquisa 
             nav={this.props.navigation}
-            token={usuario.token} 
+            token={usuario.token}
             clienteId={usuario.clienteId} 
           />
           
@@ -47,3 +42,11 @@ export default class Home extends React.Component {
     );
   }
 }
+
+// ESTILIZAÇÃO DO COMPONENTE
+const styles = StyleSheet.create({
+  viewHome: {
+    flex: 1, 
+    backgroundColor: "#fff"
+  }
+})

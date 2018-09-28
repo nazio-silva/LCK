@@ -28,9 +28,6 @@ const AppRoutes = createStackNavigator(
     FormLogin: FormLogin,
     Home: Home,
     ListaVeiculos: ListaVeiculos 
-  },
-  {
-    initialRouteName: 'FormLogin'
   }
 );
 

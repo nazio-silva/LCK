@@ -70,7 +70,6 @@ export default class Maps extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-       
         <View style={{ flex: 1 }}>
         
           <ListaVeiculos id_Cliente={id_Cliente} token={token_Cliente} nav={this.props.navigation} />

@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
 // MEUS REDUCERS
-import LOGAR from './Logar'
+import LOGIN from './Login'
 import CADASTRAR_USUARIO from './Cadastrar_usuario'
-import PESQUISAR from './Pesquisar'
+import PESQUISAR_CLIENTE from './Pesquisar'
  
 /**
  * AQUI VAMOS FAZER A COMBINAÇÃO DE TODOS OS REDUCERS DENTRO DA FUNCAO 'combineReducers'
@@ -11,7 +11,7 @@ import PESQUISAR from './Pesquisar'
  */
 
 export const Reducers = combineReducers({
-    LOGAR: LOGAR,
+    LOGIN: LOGIN,
     CADASTRAR_USUARIO: CADASTRAR_USUARIO,
-    PESQUISAR: PESQUISAR
+    PESQUISAR_CLIENTE: PESQUISAR_CLIENTE
 });

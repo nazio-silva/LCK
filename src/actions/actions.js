@@ -5,9 +5,9 @@
  * DEFINICAO DE ACTIONS CREATORS
  */
 
- import { LOGAR, CADASTRAR_USUARIO, PESQUISAR } from './actionsType'
+ import { LOGIN, CADASTRAR_USUARIO, PESQUISAR } from './actionsType'
  
-export const LOGAR = (email, senha, manterConectado) => ({
+export const LOGIN = (email, senha, manterConectado) => ({
     type: 'LOGAR',
     payload: {
         email: email, 
@@ -26,10 +26,10 @@ export const CADASTRAR_USUARIO = (nome, email, telefone) => ({
 });
 
 // BASEADO NO ES6
-export const PESQUISAR = (placa) => ({
+export const PESQUISAR_CLIENTE = (cliente) => ({
     type: 'PESQUISAR',
     payload: {
-        placa
+        cliente
     }
 });
 

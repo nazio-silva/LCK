@@ -1,4 +1,4 @@
-import { LOGAR } from '../actions/actionsType'
+import { LOGIN } from '../actions/actionsType'
 
 const INITIAL_STATE = {
   email: "teste@gmail.com",
@@ -8,8 +8,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case LOGAR:
-      return console.log("Função Logar");
+    case LOGIN:
+      return console.log("LOGANDO NA APLICAÇÃO...");
     default:
       return state;
   }

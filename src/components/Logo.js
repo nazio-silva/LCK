@@ -5,7 +5,10 @@ export default class Logo extends React.Component {
   render() {
     return (
       <View style={styles.view}>
-        <Image style={styles.logo} source={require("../image/logo.png")} />
+        <Image 
+          style={styles.logo} 
+          source={require("../image/logo.png")} 
+        />
       </View>
     );
   }

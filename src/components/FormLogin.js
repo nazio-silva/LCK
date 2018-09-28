@@ -1,11 +1,20 @@
 import axios from "axios";
 
 import React from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, AsyncStorage } from "react-native";
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TextInput, 
+  TouchableOpacity,
+  Alert, 
+  AsyncStorage 
+} from "react-native";
 
 import { Header, CheckBox, Button } from "react-native-elements";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/dist/FontAwesome";
+
 import Cadastro from "./Cadastro";
 import Logo from "./Logo";
 
@@ -29,11 +38,9 @@ export default class FormLogin extends React.Component {
     };
     this.LOGIN = this.LOGIN.bind(this);
     this.manterConectado = this.manterConectado.bind(this);
-
-    //this.recuperarData(); 
   }
 
-  // ARMAZENANDO DADOS NO LOCAL STORAGE
+  // ARMAZENANDO DADOS NO LOCAL STORAGE - OK 
   saveData = async () => {
     try {
       await AsyncStorage.setItem('token', this.state.token);
@@ -44,7 +51,7 @@ export default class FormLogin extends React.Component {
     }
   };
 
-  // RECUPERANDO DADOS NO LOCAL STORAGE - GETITEM
+  // RECUPERANDO DADOS NO LOCAL STORAGE - GETITEM OBS- NAO ESTA FUNCIONADO: FINALIZAR FUNCAO
   recuperarData = async () => {
     try {
       const token = await AsyncStorage.getItem('token',this.state.token);
@@ -58,7 +65,9 @@ export default class FormLogin extends React.Component {
 
   // FUNCAO DE LOGIN - AUTENTICA NA API COM OS DADOS DO USUARIO
   LOGIN() {
+    
     const URLPOST = URL + this.state.login + "&senha=" + this.state.senha;
+
     if (this.state.login === "" || this.state.senha === "") {
       Alert.alert("E-mail ou senha Invalido!");
     } else { 
@@ -86,18 +95,19 @@ export default class FormLogin extends React.Component {
                 login: this.state.login, 
               })
             })           
+        } else {
+          return Alert.alert("E-mail ou senha Invalido!");
         }
       }
       );
     }
   }
 
-  // FUNCAO QUE AUTENTICA USANDO TOKEN EXISTENTE 17-08-19
+  // FUNCAO QUE AUTENTICA USANDO TOKEN EXISTENTE 17-08-19 OBS- NAO ESTA FUNCIONANDO
   manterConectado() {
     if (this.state.checked === false) {
       console.log("Entrar sem autenticar novamente");
       this.recuperarData()
-      //this.props.navigation.navigate("Home")
     } else {
       console.log("Digitar Login e Senha!");
     }
@@ -114,14 +124,19 @@ export default class FormLogin extends React.Component {
       <View style={styles.view}>
         <Logo />
         <View style={styles.form}>
-          <View style={{ flexDirection: "row", marginBottom: 10, marginRight: 20 }}>
-            <Icon name="user" size={30} style={{ color: "#4682B4" }} />
+          <View style={styles.email}>
+            <Icon 
+              name="user" 
+              size={30} 
+              style={{ color: "#4682B4" }}
+            />
+
             <TextInput
               style={{
                 marginLeft: 10,
                 height: 40,
                 width: 250,
-                borderColor: "blue",
+                borderColor: "#4682B4",
                 borderWidth: 2,
                 borderRadius: 10,
                 textAlign: "center",
@@ -132,14 +147,19 @@ export default class FormLogin extends React.Component {
             />
           </View>
 
-          <View style={{ flexDirection: "row", marginRight: 20 }}>
-            <Icon name="lock" size={40} style={{ color: "#4682B4" }} />
+          <View style={styles.senha}>
+            <Icon 
+              name="lock" 
+              size={40} 
+              style={{ color: "#4682B4" }} 
+            />
+
             <TextInput
               style={{
                 marginLeft: 10,
                 height: 40,
                 width: 250,
-                borderColor: "blue",
+                borderColor: "#4682B4",
                 borderWidth: 2,
                 borderRadius: 10,
                 textAlign: "center",
@@ -154,12 +174,13 @@ export default class FormLogin extends React.Component {
           <View style={ styles.button }>
             <Button
               borderRadius= {10}
-              backgroundColor="#2089dc"
+              backgroundColor="#4682B4" //#4682B4  -- #2089dc
               title="ENTRAR" 
-              onPress={this.LOGIN} />
+              onPress={this.LOGIN} 
+            />
           </View>
 
-          <View style={{ marginLeft: 30, margin: 10 }}>
+          <View style={styles.checkbox}>
             <CheckBox
               containerStyle={{ backgroundColor: '#EEE9E9'}}
               title="MANTER-SE CONECTADO"
@@ -168,9 +189,9 @@ export default class FormLogin extends React.Component {
             /> 
           </View>
 
-          <View style={{ marginLeft: 30}}>
+          <View style={{ marginLeft: 30 }}>
             <TouchableOpacity onPress={this._toggleModal}>
-              <Text style={{ color: "red", fontSize: 20 }}>
+              <Text style={styles.esqueceuSenha}>
                 ESQUECEU A SENHA?
               </Text>
             </TouchableOpacity>
@@ -205,6 +226,7 @@ export default class FormLogin extends React.Component {
   }
 }
 
+// ESTILIZAÇÃO DO COMPONENTE
 const styles = StyleSheet.create({
   view: {
     flex: 1,
@@ -216,15 +238,30 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 40
+    //marginBottom: 20
+  },
+  email: {
+    flexDirection: "row", 
+    marginBottom: 10, 
+    marginRight: 20
+  },
+  senha: {
+    flexDirection: "row", 
+    marginRight: 20
   },
   button: {
-    //borderRadius: 20,
-    //backgroundColor: "red",
     height: 40, 
     width: 200, 
     marginLeft: 20, 
     marginTop: 20
+  },
+  checkbox: {
+    marginLeft: 30, 
+    margin: 10
+  },
+  esqueceuSenha: {
+    color: "red", 
+    fontSize: 20
   },
   modal: {
     flex: 1, 
